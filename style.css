@@ -1,13 +1,13 @@
 /* ==========================================================================
-   Grandmaster Web Chess — Style & Visual Masterpiece System
+   Grandmaster Web Chess — Editorial & Tournament Visual System
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. Multi-Screen Transitions & Layout Utilities
+   1. Multi-Screen Transitions & Scrollbar
    -------------------------------------------------------------------------- */
 .screen-view {
   opacity: 1;
-  transition: opacity 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s ease-out;
 }
 
 .screen-view.hidden {
@@ -15,251 +15,242 @@
   opacity: 0;
 }
 
-/* Kustomisasi Scrollbar Halus */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
-  border-radius: 9999px;
+  background: #111110;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(51, 65, 85, 0.8);
-  border-radius: 9999px;
+  background: #2e2c28;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(71, 85, 105, 1);
+  background: #c59b57;
 }
 
 /* --------------------------------------------------------------------------
-   2. Warna Petak Papan Catur Dasar (FIDE Standard Default)
+   2. Warna Petak Papan Catur Dasar
    -------------------------------------------------------------------------- */
 .sq-light {
-  background-color: #ebecd0;
-  color: #739552;
-  transition: background-color 0.2s ease;
+  background-color: #dfd3c3;
+  color: #6d4c3d;
+  transition: background-color 0.15s ease;
 }
 
 .sq-dark {
-  background-color: #739552;
-  color: #ebecd0;
-  transition: background-color 0.2s ease;
+  background-color: #7c5846;
+  color: #dfd3c3;
+  transition: background-color 0.15s ease;
 }
 
 .sq-light.highlight-move {
-  background-color: #f5f682;
+  background-color: #d9c27e;
 }
 
 .sq-dark.highlight-move {
-  background-color: #b9ca43;
+  background-color: #9e7b46;
 }
 
 .sq-selected {
-  background-color: #bbcb2b !important;
+  background-color: #c59b57 !important;
 }
 
 /* --------------------------------------------------------------------------
-   3. Sistem Tema Papan Visual (Visual Themes)
+   3. Sistem Tema Papan Visual (Curated Material Palettes)
    -------------------------------------------------------------------------- */
 
-/* --- Tema 1: Classic Wood (Kayu Mahoni & Kastanye) --- */
+/* --- Tema 1: Tournament Walnut (Kayu Kenari & Maple) --- */
 [data-theme="wood"] {
-  border-color: #5c3a21 !important;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 0 0 3px #8b5a2b;
+  border-color: #3d2b1f !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
 }
 [data-theme="wood"] .sq-light {
-  background-color: #e4c295;
-  color: #8b5526;
+  background-color: #e6dac8;
+  color: #6e4f3a;
 }
 [data-theme="wood"] .sq-dark {
-  background-color: #9f6535;
-  color: #e4c295;
+  background-color: #7a563e;
+  color: #e6dac8;
 }
 [data-theme="wood"] .sq-light.highlight-move {
-  background-color: #f7da7c;
+  background-color: #dec183;
 }
 [data-theme="wood"] .sq-dark.highlight-move {
-  background-color: #c98a3e;
+  background-color: #9c7444;
 }
 [data-theme="wood"] .sq-selected {
-  background-color: #df9e38 !important;
+  background-color: #c59b57 !important;
 }
 
-/* --- Tema 2: Cyberpunk Neon --- */
+/* --- Tema 2: Amber Phosphor (Menggantikan Cyberpunk Neon Klise) --- */
 [data-theme="cyberpunk"] {
-  border-color: #06b6d4 !important;
-  box-shadow: 0 0 25px rgba(6, 182, 212, 0.35), 0 0 45px rgba(236, 72, 153, 0.2), inset 0 0 15px rgba(6, 182, 212, 0.2);
+  border-color: #b45309 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 [data-theme="cyberpunk"] .sq-light {
-  background-color: #111827;
-  color: #06b6d4;
-  box-shadow: inset 0 0 8px rgba(6, 182, 212, 0.12);
+  background-color: #1f1b16;
+  color: #d97706;
 }
 [data-theme="cyberpunk"] .sq-dark {
-  background-color: #030712;
-  color: #ec4899;
-  box-shadow: inset 0 0 8px rgba(236, 72, 153, 0.12);
+  background-color: #12100d;
+  color: #92400e;
 }
 [data-theme="cyberpunk"] .sq-light.highlight-move {
-  background-color: #1e1b4b;
-  box-shadow: inset 0 0 12px rgba(236, 72, 153, 0.7);
+  background-color: #3b2a14;
 }
 [data-theme="cyberpunk"] .sq-dark.highlight-move {
-  background-color: #2e1065;
-  box-shadow: inset 0 0 12px rgba(236, 72, 153, 0.7);
+  background-color: #2e200f;
 }
 [data-theme="cyberpunk"] .sq-selected {
-  background-color: #0e7490 !important;
-  box-shadow: inset 0 0 16px rgba(6, 182, 212, 0.9) !important;
+  background-color: #78350f !important;
 }
 
-/* --- Tema 3: Marble Luxury --- */
+/* --- Tema 3: Carrara & Nero Marble --- */
 [data-theme="marble"] {
-  border-color: #d4af37 !important;
-  box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(212, 175, 55, 0.6);
+  border-color: #57534e !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75);
 }
 [data-theme="marble"] .sq-light {
-  background-color: #f1f5f9;
-  color: #334155;
-  background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8), rgba(226,232,240,0.6));
+  background-color: #eceae4;
+  color: #44403c;
 }
 [data-theme="marble"] .sq-dark {
-  background-color: #27373f;
-  color: #e2e8f0;
-  background-image: radial-gradient(circle at 50% 50%, rgba(51,65,85,0.7), rgba(30,41,59,0.95));
+  background-color: #383532;
+  color: #d6d3cd;
 }
 [data-theme="marble"] .sq-light.highlight-move {
-  background-color: #fef08a;
-  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.4);
+  background-color: #dfd1a7;
 }
 [data-theme="marble"] .sq-dark.highlight-move {
-  background-color: #5b5329;
-  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.4);
+  background-color: #63553b;
 }
 [data-theme="marble"] .sq-selected {
-  background-color: #ca8a04 !important;
+  background-color: #a3824c !important;
 }
 
-/* --- Tema 4: Midnight Dark --- */
+/* --- Tema 4: Obsidian Slate (Architectural Monochrome) --- */
 [data-theme="midnight"] {
-  border-color: #312e81 !important;
-  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(79, 70, 229, 0.25);
+  border-color: #2e2c28 !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
 }
 [data-theme="midnight"] .sq-light {
-  background-color: #1e293b;
-  color: #94a3b8;
+  background-color: #2c2b29;
+  color: #8c8881;
 }
 [data-theme="midnight"] .sq-dark {
-  background-color: #0f172a;
-  color: #64748b;
+  background-color: #181715;
+  color: #57544f;
 }
 [data-theme="midnight"] .sq-light.highlight-move {
-  background-color: #312e81;
+  background-color: #4a402e;
 }
 [data-theme="midnight"] .sq-dark.highlight-move {
-  background-color: #1e1b4b;
+  background-color: #362e20;
 }
 [data-theme="midnight"] .sq-selected {
-  background-color: #4338ca !important;
+  background-color: #6e5732 !important;
 }
 
 /* --------------------------------------------------------------------------
-   4. Efek Visual Skak, Hint, dan Animasi
+   4. Efek Visual Skak & Hint Analisis
    -------------------------------------------------------------------------- */
 .sq-check {
   background-image: radial-gradient(
     circle at center,
-    rgba(239, 68, 68, 0.95) 0%,
-    rgba(220, 38, 38, 0.75) 45%,
+    rgba(184, 93, 59, 0.92) 0%,
+    rgba(153, 27, 27, 0.75) 50%,
     transparent 85%
   ) !important;
-  animation: pulseCheck 1s infinite alternate;
-}
-
-@keyframes pulseCheck {
-  from { filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.6)); }
-  to { filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.9)); }
 }
 
 .sq-hint-from {
-  box-shadow: inset 0 0 0 4px #eab308, 0 0 14px rgba(234, 179, 8, 0.75) !important;
-  animation: pulseHint 1.2s infinite ease-in-out;
+  box-shadow: inset 0 0 0 3px #c59b57 !important;
 }
 
 .sq-hint-to {
-  box-shadow: inset 0 0 0 4px #22c55e, 0 0 16px rgba(34, 197, 94, 0.8) !important;
-  animation: pulseHint 1.2s infinite ease-in-out;
-}
-
-@keyframes pulseHint {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(0.97); }
+  box-shadow: inset 0 0 0 3px #c59b57 !important;
 }
 
 /* --------------------------------------------------------------------------
-   5. Efek Screen Shake (Guncangan Layar)
+   5. Efek Screen Shake
    -------------------------------------------------------------------------- */
 @keyframes screenShakeSubtle {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-3px, 2px); }
-  40% { transform: translate(3px, -2px); }
-  60% { transform: translate(-2px, -1px); }
-  80% { transform: translate(2px, 1px); }
-  100% { transform: translate(0, 0); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2px, 1px);
+  }
+  50% {
+    transform: translate(2px, -1px);
+  }
+  75% {
+    transform: translate(-1px, -1px);
+  }
 }
 
 @keyframes screenShakeHeavy {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  15% { transform: translate(-6px, 4px) rotate(-1.2deg); }
-  30% { transform: translate(6px, -5px) rotate(1.2deg); }
-  45% { transform: translate(-4px, 3px) rotate(-0.6deg); }
-  60% { transform: translate(4px, -2px) rotate(0.6deg); }
-  75% { transform: translate(-2px, 2px) rotate(-0.2deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-4px, 3px);
+  }
+  40% {
+    transform: translate(4px, -3px);
+  }
+  60% {
+    transform: translate(-3px, 2px);
+  }
+  80% {
+    transform: translate(3px, -1px);
+  }
 }
 
 .shake-subtle {
-  animation: screenShakeSubtle 0.28s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation: screenShakeSubtle 0.22s ease-out both;
 }
 
 .shake-heavy {
-  animation: screenShakeHeavy 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation: screenShakeHeavy 0.4s ease-out both;
 }
 
 /* --------------------------------------------------------------------------
    6. Indikator Titik Bantu Langkah Legal
    -------------------------------------------------------------------------- */
 .legal-dot {
-  width: 28%;
-  height: 28%;
+  width: 24%;
+  height: 24%;
   border-radius: 9999px;
-  background-color: rgba(20, 25, 30, 0.28);
+  background-color: rgba(17, 17, 16, 0.35);
   pointer-events: none;
-  animation: popIn 0.15s ease-out;
+  animation: popIn 0.12s ease-out;
 }
 
 .legal-capture {
-  width: 86%;
-  height: 86%;
+  width: 84%;
+  height: 84%;
   border-radius: 9999px;
-  border: 5px solid rgba(20, 25, 30, 0.32);
+  border: 4px solid rgba(17, 17, 16, 0.38);
   pointer-events: none;
-  animation: popIn 0.15s ease-out;
+  animation: popIn 0.12s ease-out;
 }
 
-[data-theme="cyberpunk"] .legal-dot {
-  background-color: rgba(6, 182, 212, 0.6);
-  box-shadow: 0 0 8px rgba(6, 182, 212, 0.8);
+[data-theme="cyberpunk"] .legal-dot,
+[data-theme="midnight"] .legal-dot {
+  background-color: rgba(197, 155, 87, 0.5);
 }
-[data-theme="cyberpunk"] .legal-capture {
-  border-color: rgba(236, 72, 153, 0.7);
-  box-shadow: 0 0 10px rgba(236, 72, 153, 0.6);
+[data-theme="cyberpunk"] .legal-capture,
+[data-theme="midnight"] .legal-capture {
+  border-color: rgba(197, 155, 87, 0.55);
 }
 
 @keyframes popIn {
   from {
-    transform: scale(0.5);
+    transform: scale(0.6);
     opacity: 0;
   }
   to {
@@ -269,7 +260,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   7. Wrapper Bidak & Pointer Drag System (FLIP Animation Compatible)
+   7. Wrapper Bidak & Pointer Drag System
    -------------------------------------------------------------------------- */
 .piece-wrapper {
   width: 100%;
@@ -304,8 +295,8 @@
   justify-content: center;
   z-index: 9999 !important;
   pointer-events: none;
-  transform: translate(-50%, -50%) scale(1.18);
-  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.6));
+  transform: translate(-50%, -50%) scale(1.12);
+  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.55));
   touch-action: none;
 }
 
@@ -321,46 +312,36 @@
 }
 
 .chess-piece {
-  width: 84%;
-  height: 84%;
+  width: 82%;
+  height: 82%;
   cursor: grab;
-  transition:
-    transform 0.12s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.12s ease;
-  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35));
+  transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
 }
 
 .piece-wrapper:not(.is-origin-hidden) .chess-piece:hover {
-  transform: translateY(-2px) scale(1.05);
-  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
-}
-
-.sq-drag-over {
-  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.7);
+  transform: translateY(-1.5px);
 }
 
 /* --------------------------------------------------------------------------
-   8. Bar Evaluasi Keunggulan (Dynamic Real-time Evaluation Bar)
+   8. Bar Evaluasi Keunggulan (Precision Vertical Gauge)
    -------------------------------------------------------------------------- */
 .eval-bar-wrapper {
-  width: 22px;
-  border-radius: 9999px;
+  width: 20px;
   overflow: hidden;
-  background-color: #1e293b;
-  border: 1px solid #334155;
+  background-color: #181715;
+  border: 1px solid #2e2c28;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
 }
 
 .eval-bar-fill {
   width: 100%;
-  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  background: #e6dac8;
   transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .eval-bar-score {
@@ -368,11 +349,10 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 9px;
-  font-family: ui-monospace, monospace;
-  font-weight: 800;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
   pointer-events: none;
   z-index: 5;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   white-space: nowrap;
 }
 
@@ -389,14 +369,13 @@
 }
 
 .hint-arrow {
-  stroke: #22c55e;
-  stroke-width: 9;
+  stroke: #c59b57;
+  stroke-width: 7;
   stroke-linecap: round;
   fill: none;
-  filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.8));
   stroke-dasharray: 600;
   stroke-dashoffset: 600;
-  animation: drawArrow 0.4s ease-out forwards;
+  animation: drawArrow 0.35s ease-out forwards;
 }
 
 @keyframes drawArrow {

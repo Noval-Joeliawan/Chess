@@ -1,17 +1,17 @@
 /**
  * ============================================================================
- * Grandmaster Web Chess — Lead Game Developer & UI/UX Masterpiece Edition
+ * Grandmaster Web Chess — FIDE Editorial & Tournament Edition
  * ============================================================================
  */
 
 /* ----------------------------------------------------------------------------
-   1. Modul Audio Sintetis Berlapis berbasis Web Audio API (Multi Sound Packs)
+   1. Modul Audio Sintetis Berlapis berbasis Web Audio API
    ---------------------------------------------------------------------------- */
 class SoundEngine {
   constructor() {
     this.ctx = null;
     this.enabled = true;
-    this.pack = "wood"; // 'wood' | 'arcade' | 'scifi'
+    this.pack = "wood";
   }
 
   init() {
@@ -30,7 +30,14 @@ class SoundEngine {
     }
   }
 
-  playTone(freq, duration, type = "sine", gainLevel = 0.15, delay = 0, pitchEnd = null) {
+  playTone(
+    freq,
+    duration,
+    type = "sine",
+    gainLevel = 0.15,
+    delay = 0,
+    pitchEnd = null,
+  ) {
     if (!this.enabled) return;
     this.init();
 
@@ -41,7 +48,10 @@ class SoundEngine {
     osc.type = type;
     osc.frequency.setValueAtTime(freq, startTime);
     if (pitchEnd !== null) {
-      osc.frequency.exponentialRampToValueAtTime(Math.max(10, pitchEnd), startTime + duration);
+      osc.frequency.exponentialRampToValueAtTime(
+        Math.max(10, pitchEnd),
+        startTime + duration,
+      );
     }
 
     gain.gain.setValueAtTime(gainLevel, startTime);
@@ -65,7 +75,10 @@ class SoundEngine {
 
     osc.type = "triangle";
     osc.frequency.setValueAtTime(freq, startTime);
-    osc.frequency.exponentialRampToValueAtTime(freq * 0.45, startTime + duration);
+    osc.frequency.exponentialRampToValueAtTime(
+      freq * 0.45,
+      startTime + duration,
+    );
 
     filter.type = "lowpass";
     filter.frequency.setValueAtTime(380, startTime);
@@ -86,10 +99,10 @@ class SoundEngine {
     if (!this.enabled) return;
     switch (this.pack) {
       case "arcade":
-        this.playTone(320, 0.05, "square", 0.18, 0, 580);
+        this.playTone(320, 0.05, "square", 0.14, 0, 520);
         break;
       case "scifi":
-        this.playTone(1100, 0.07, "sine", 0.2, 0, 350);
+        this.playTone(780, 0.06, "sine", 0.16, 0, 320);
         break;
       case "wood":
       default:
@@ -102,12 +115,10 @@ class SoundEngine {
     if (!this.enabled) return;
     switch (this.pack) {
       case "arcade":
-        this.playTone(450, 0.12, "sawtooth", 0.25, 0, 80);
-        this.playTone(200, 0.08, "square", 0.2, 0.04, 50);
+        this.playTone(420, 0.1, "sawtooth", 0.2, 0, 90);
         break;
       case "scifi":
-        this.playTone(850, 0.12, "sawtooth", 0.24, 0, 140);
-        this.playTone(1400, 0.09, "sine", 0.18, 0.02, 600);
+        this.playTone(650, 0.1, "sine", 0.2, 0, 180);
         break;
       case "wood":
       default:
@@ -119,82 +130,38 @@ class SoundEngine {
 
   castle() {
     if (!this.enabled) return;
-    switch (this.pack) {
-      case "arcade":
-        this.playTone(300, 0.06, "square", 0.18, 0, 480);
-        this.playTone(480, 0.09, "square", 0.2, 0.07, 720);
-        break;
-      case "scifi":
-        this.playTone(400, 0.12, "sine", 0.22, 0, 950);
-        this.playTone(950, 0.14, "sine", 0.2, 0.08, 400);
-        break;
-      case "wood":
-      default:
-        this.playWoodThud(220, 0.06, 0.25, 0);
-        this.playWoodThud(190, 0.07, 0.25, 0.08);
-        break;
-    }
+    this.playWoodThud(220, 0.06, 0.25, 0);
+    this.playWoodThud(190, 0.07, 0.25, 0.08);
   }
 
   check() {
     if (!this.enabled) return;
-    switch (this.pack) {
-      case "arcade":
-        this.playTone(660, 0.1, "square", 0.22, 0);
-        this.playTone(880, 0.15, "square", 0.25, 0.09);
-        break;
-      case "scifi":
-        this.playTone(980, 0.12, "sawtooth", 0.25, 0, 1200);
-        this.playTone(1300, 0.2, "sawtooth", 0.25, 0.08, 1600);
-        break;
-      case "wood":
-      default:
-        this.playTone(520, 0.15, "sine", 0.22, 0);
-        this.playTone(690, 0.25, "sine", 0.22, 0.08);
-        break;
-    }
+    this.playTone(520, 0.14, "sine", 0.2, 0);
+    this.playTone(680, 0.22, "sine", 0.2, 0.08);
   }
 
   gameOver() {
     if (!this.enabled) return;
-    switch (this.pack) {
-      case "arcade":
-        this.playTone(440, 0.12, "square", 0.22, 0);
-        this.playTone(550, 0.12, "square", 0.22, 0.12);
-        this.playTone(660, 0.14, "square", 0.22, 0.24);
-        this.playTone(880, 0.35, "square", 0.25, 0.36);
-        break;
-      case "scifi":
-        this.playTone(800, 0.2, "sine", 0.22, 0, 300);
-        this.playTone(500, 0.25, "sine", 0.22, 0.15, 180);
-        this.playTone(320, 0.45, "triangle", 0.24, 0.35, 80);
-        break;
-      case "wood":
-      default:
-        this.playWoodThud(340, 0.18, 0.3, 0);
-        this.playWoodThud(280, 0.2, 0.3, 0.15);
-        this.playWoodThud(200, 0.35, 0.35, 0.32);
-        break;
-    }
+    this.playWoodThud(320, 0.18, 0.3, 0);
+    this.playWoodThud(260, 0.2, 0.3, 0.15);
+    this.playWoodThud(190, 0.35, 0.35, 0.32);
   }
 
   puzzleSuccess() {
     if (!this.enabled) return;
-    this.playTone(523.25, 0.12, "triangle", 0.22, 0);
-    this.playTone(659.25, 0.14, "triangle", 0.22, 0.1);
-    this.playTone(783.99, 0.16, "triangle", 0.24, 0.2);
-    this.playTone(1046.5, 0.4, "sine", 0.28, 0.32);
+    this.playTone(440, 0.12, "triangle", 0.2, 0);
+    this.playTone(554.37, 0.14, "triangle", 0.2, 0.1);
+    this.playTone(659.25, 0.28, "sine", 0.22, 0.2);
   }
 
   puzzleError() {
     if (!this.enabled) return;
-    this.playTone(280, 0.15, "sawtooth", 0.24, 0, 160);
-    this.playTone(180, 0.25, "sawtooth", 0.25, 0.12, 100);
+    this.playTone(240, 0.15, "sawtooth", 0.18, 0, 150);
   }
 }
 
 /* ----------------------------------------------------------------------------
-   2. Sistem Partikel Efek Visual Kustom (HTML5 Canvas Particle Engine)
+   2. Sistem Partikel Efek Visual Halus (Subtle Capture Dust)
    ---------------------------------------------------------------------------- */
 class ParticleSystem {
   constructor(canvas) {
@@ -215,29 +182,29 @@ class ParticleSystem {
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  spawnSparks(x, y, theme = "wood", count = 35) {
+  spawnSparks(x, y, theme = "wood", count = 20) {
     this.resize();
     const palettes = {
-      wood: ["#fbbf24", "#f59e0b", "#d97706", "#fed7aa", "#ffffff"],
-      cyberpunk: ["#06b6d4", "#22d3ee", "#ec4899", "#f472b6", "#a855f7"],
-      marble: ["#ffd700", "#fef08a", "#d4af37", "#ffffff", "#94a3b8"],
-      midnight: ["#6366f1", "#818cf8", "#38bdf8", "#c084fc", "#ffffff"],
+      wood: ["#c59b57", "#e6dac8", "#9c7444"],
+      cyberpunk: ["#d97706", "#f59e0b", "#78350f"],
+      marble: ["#d6d3cd", "#a3824c", "#78716c"],
+      midnight: ["#c59b57", "#8c8881", "#57544f"],
     };
     const colors = palettes[theme] || palettes.wood;
 
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = 2 + Math.random() * 6.5;
+      const speed = 1.5 + Math.random() * 4.5;
       this.particles.push({
         x,
         y,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1.2,
+        vy: Math.sin(angle) * speed - 0.8,
         color: colors[Math.floor(Math.random() * colors.length)],
-        size: 2.2 + Math.random() * 3.8,
-        alpha: 1,
-        decay: 0.02 + Math.random() * 0.03,
-        gravity: 0.16,
+        size: 1.8 + Math.random() * 2.5,
+        alpha: 0.85,
+        decay: 0.028 + Math.random() * 0.025,
+        gravity: 0.12,
       });
     }
 
@@ -250,10 +217,10 @@ class ParticleSystem {
       x,
       y,
       radius: 8,
-      maxRadius: 65,
-      color: "rgba(239, 68, 68, ",
-      alpha: 0.9,
-      decay: 0.035,
+      maxRadius: 56,
+      color: "rgba(184, 93, 59, ",
+      alpha: 0.8,
+      decay: 0.04,
       isWave: true,
     });
     if (!this.isRunning) this.startLoop();
@@ -265,12 +232,12 @@ class ParticleSystem {
     const w = rect.width;
     const h = rect.height;
 
-    for (let burst = 0; burst < 4; burst++) {
+    for (let burst = 0; burst < 3; burst++) {
       setTimeout(() => {
-        const bx = w * 0.2 + Math.random() * w * 0.6;
-        const by = h * 0.2 + Math.random() * h * 0.6;
-        this.spawnSparks(bx, by, theme, 50);
-      }, burst * 220);
+        const bx = w * 0.25 + Math.random() * w * 0.5;
+        const by = h * 0.25 + Math.random() * h * 0.5;
+        this.spawnSparks(bx, by, theme, 32);
+      }, burst * 200);
     }
   }
 
@@ -297,7 +264,7 @@ class ParticleSystem {
       const p = this.particles[i];
 
       if (p.isWave) {
-        p.radius += 2.2;
+        p.radius += 2;
         p.alpha -= p.decay;
         if (p.alpha <= 0 || p.radius >= p.maxRadius) {
           this.particles.splice(i, 1);
@@ -307,7 +274,7 @@ class ParticleSystem {
         this.ctx.beginPath();
         this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         this.ctx.strokeStyle = `${p.color}${Math.max(0, p.alpha)})`;
-        this.ctx.lineWidth = 4;
+        this.ctx.lineWidth = 3;
         this.ctx.stroke();
         this.ctx.restore();
       } else {
@@ -335,49 +302,228 @@ class ParticleSystem {
 }
 
 /* ----------------------------------------------------------------------------
-   3. Basis Data Opening Explorer (Real-time Opening Detection)
+   3. Basis Data Opening Explorer (ECO Standard)
    ---------------------------------------------------------------------------- */
 const OPENING_BOOK = [
-  { moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6"], eco: "B90", name: "Sicilian Defense: Najdorf", desc: "Variasi legendaris Fischer & Kasparov dengan serangan balik tajam." },
-  { moves: ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4"], eco: "B32", name: "Sicilian Defense: Open", desc: "Pertempuran terbuka memperebutkan sayap menteri dan pusat." },
-  { moves: ["e4", "c5"], eco: "B20", name: "Sicilian Defense", desc: "Respon paling tajam dan agresif dalam menghadapi 1.e4." },
-  { moves: ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6"], eco: "C70", name: "Ruy Lopez: Morphy Defense", desc: "Sistem utama Ruy Lopez yang paling sering dimainkan di level dunia." },
-  { moves: ["e4", "e5", "Nf3", "Nc6", "Bb5"], eco: "C60", name: "Ruy Lopez (Spanish Opening)", desc: "Pembukaan klasik FIDE mengontrol struktur bidak jangka panjang." },
-  { moves: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5"], eco: "C50", name: "Italian Game: Giuoco Piano", desc: "Perkembangan perwira harmonis dengan kontrol petak pusat." },
-  { moves: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6"], eco: "C55", name: "Two Knights Defense", desc: "Serangan balik aktif hitam mengincar inisiatif taktis." },
-  { moves: ["e4", "e5", "Nf3", "Nc6", "Bc4"], eco: "C50", name: "Italian Game", desc: "Mengembangkan gajah ke c4 menekan titik lemah f7." },
-  { moves: ["e4", "e6", "d4", "d5"], eco: "C01", name: "French Defense: Main Line", desc: "Membangun benteng pertahanan kokoh di sayap raja." },
-  { moves: ["e4", "e6"], eco: "C00", name: "French Defense", desc: "Pertahanan solid mengincar serangan balik ke rantai pion." },
-  { moves: ["e4", "c6", "d4", "d5"], eco: "B12", name: "Caro-Kann Defense: Main Line", desc: "Struktur bidak kokoh menjaga gajah c8 tetap bebas bergerak." },
-  { moves: ["e4", "c6"], eco: "B10", name: "Caro-Kann Defense", desc: "Pertahanan sangat solid tanpa mengorbankan keselamatan raja." },
-  { moves: ["d4", "d5", "c4", "dxc4"], eco: "D20", name: "Queen's Gambit Accepted", desc: "Hitam menerima tantangan pengorbanan pion sementara." },
-  { moves: ["d4", "d5", "c4", "e6"], eco: "D30", name: "Queen's Gambit Declined", desc: "Sistem ortodoks ultra-kokoh favorit para juara dunia." },
-  { moves: ["d4", "d5", "c4", "c6"], eco: "D10", name: "Slav Defense", desc: "Memperkuat petak d5 sambil mempertahankan kelincahan gajah." },
-  { moves: ["d4", "d5", "c4"], eco: "D06", name: "Queen's Gambit", desc: "Pengorbanan sayap menteri untuk dominasi petak pusat d4 & e4." },
-  { moves: ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7"], eco: "E60", name: "King's Indian Defense", desc: "Sistem hipermodern dengan badai serangan sayap raja." },
-  { moves: ["d4", "Nf6", "c4", "e6", "Nc3", "Bb4"], eco: "E20", name: "Nimzo-Indian Defense", desc: "Menyemat kuda putih c3 untuk mengontrol petak e4." },
-  { moves: ["d4", "Nf6", "c4", "e6", "Nf3", "b6"], eco: "E12", name: "Queen's Indian Defense", desc: "Mengontrol petak e4 melalui fianchetto gajah di b7." },
-  { moves: ["d4", "Nf6", "Nf3", "d5", "Bf4"], eco: "D02", name: "London System", desc: "Skema fleksibel dan solid yang digemari Magnus Carlsen." },
-  { moves: ["d4", "d5", "Bf4"], eco: "D00", name: "London System", desc: "Sistem pembukaan populer dengan kontrol kokoh jalur f4-c7." },
-  { moves: ["e4", "d5"], eco: "B01", name: "Scandinavian Defense", desc: "Tantangan langsung terhadap pion e4 di langkah pertama." },
-  { moves: ["e4", "Nf6"], eco: "B02", name: "Alekhine's Defense", desc: "Memancing pion putih maju untuk dieksploitasi kemudian." },
-  { moves: ["c4"], eco: "A10", name: "English Opening", desc: "Penguasaan sayap fleksibel yang mengendalikan petak d5." },
-  { moves: ["Nf3"], eco: "A04", name: "Réti Opening", desc: "Strategi hipermodern mengendalikan pusat tanpa dorongan pion awal." },
-  { moves: ["f4"], eco: "A02", name: "Bird's Opening", desc: "Langkah sayap agresif yang mengincar kendali petak e5." },
-  { moves: ["e4", "e5", "f4"], eco: "C30", name: "King's Gambit", desc: "Pengorbanan romantis klasik penuh kombinasi tajam." },
-  { moves: ["e4", "e5", "Nf3", "Nf6"], eco: "C42", name: "Petrov's Defense", desc: "Pertahanan simetris terkenal tahan banting." },
-  { moves: ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6"], eco: "C47", name: "Four Knights Game", desc: "Perkembangan seimbang dari seluruh empat kuda." },
-  { moves: ["d4", "f5"], eco: "A80", name: "Dutch Defense", desc: "Pendekatan asimetris tajam mengontrol sayap raja." },
-  { moves: ["d4", "Nf6"], eco: "A45", name: "Indian Defense", desc: "Permulaan fleksibel menghadapi langkah pertama d4." },
-  { moves: ["e4", "e5"], eco: "C20", name: "Open Game (King's Pawn)", desc: "Pertempuran klasik memperebutkan petak sentral e4 dan e5." },
-  { moves: ["d4", "d5"], eco: "D00", name: "Closed Game (Queen's Pawn)", desc: "Perebutan posisi berbasis struktur bidak tertutup." },
-  { moves: ["e4"], eco: "B00", name: "King's Pawn Opening", desc: "Langkah pembuka terpopuler membuka menteri dan gajah." },
-  { moves: ["d4"], eco: "A40", name: "Queen's Pawn Opening", desc: "Langkah kokoh mendominasi pusat dan menjaga keamanan raja." },
+  {
+    moves: ["e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6"],
+    eco: "B90",
+    name: "Sicilian Defense: Najdorf",
+    desc: "Variasi legendaris Fischer & Kasparov dengan serangan balik tajam.",
+  },
+  {
+    moves: ["e4", "c5", "Nf3", "Nc6", "d4", "cxd4", "Nxd4"],
+    eco: "B32",
+    name: "Sicilian Defense: Open",
+    desc: "Pertempuran terbuka memperebutkan sayap menteri dan pusat.",
+  },
+  {
+    moves: ["e4", "c5"],
+    eco: "B20",
+    name: "Sicilian Defense",
+    desc: "Respon asimetris tajam dalam menghadapi 1.e4.",
+  },
+  {
+    moves: ["e4", "e5", "Nf3", "Nc6", "Bb5", "a6"],
+    eco: "C70",
+    name: "Ruy Lopez: Morphy Defense",
+    desc: "Sistem utama Ruy Lopez di kejuaraan dunia.",
+  },
+  {
+    moves: ["e4", "e5", "Nf3", "Nc6", "Bb5"],
+    eco: "C60",
+    name: "Ruy Lopez (Spanish Opening)",
+    desc: "Pembukaan klasik FIDE menekan struktur pusat jangka panjang.",
+  },
+  {
+    moves: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5"],
+    eco: "C50",
+    name: "Italian Game: Giuoco Piano",
+    desc: "Perkembangan perwira harmonis dengan kontrol petak d4.",
+  },
+  {
+    moves: ["e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6"],
+    eco: "C55",
+    name: "Two Knights Defense",
+    desc: "Serangan balik aktif hitam mengincar inisiatif taktis.",
+  },
+  {
+    moves: ["e4", "e5", "Nf3", "Nc6", "Bc4"],
+    eco: "C50",
+    name: "Italian Game",
+    desc: "Mengembangkan gajah ke c4 menekan titik lemah f7.",
+  },
+  {
+    moves: ["e4", "e6", "d4", "d5"],
+    eco: "C01",
+    name: "French Defense: Main Line",
+    desc: "Membangun rantai pion kokoh dengan serangan balik c5.",
+  },
+  {
+    moves: ["e4", "e6"],
+    eco: "C00",
+    name: "French Defense",
+    desc: "Pertahanan solid mengincar serangan balik terhadap d4.",
+  },
+  {
+    moves: ["e4", "c6", "d4", "d5"],
+    eco: "B12",
+    name: "Caro-Kann Defense: Main Line",
+    desc: "Struktur bidak kokoh menjaga diagonal gajah c8 tetap terbuka.",
+  },
+  {
+    moves: ["e4", "c6"],
+    eco: "B10",
+    name: "Caro-Kann Defense",
+    desc: "Pertahanan struktural ultra-solid.",
+  },
+  {
+    moves: ["d4", "d5", "c4", "dxc4"],
+    eco: "D20",
+    name: "Queen's Gambit Accepted",
+    desc: "Hitam menerima pengorbanan pion sayap menteri sementara.",
+  },
+  {
+    moves: ["d4", "d5", "c4", "e6"],
+    eco: "D30",
+    name: "Queen's Gambit Declined",
+    desc: "Sistem ortodoks kokoh mempertahankan titik sentral d5.",
+  },
+  {
+    moves: ["d4", "d5", "c4", "c6"],
+    eco: "D10",
+    name: "Slav Defense",
+    desc: "Memperkuat petak d5 dengan pion c6.",
+  },
+  {
+    moves: ["d4", "d5", "c4"],
+    eco: "D06",
+    name: "Queen's Gambit",
+    desc: "Pengorbanan pion sayap untuk dominasi petak pusat.",
+  },
+  {
+    moves: ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7"],
+    eco: "E60",
+    name: "King's Indian Defense",
+    desc: "Sistem hipermodern dengan manuver serangan sayap raja.",
+  },
+  {
+    moves: ["d4", "Nf6", "c4", "e6", "Nc3", "Bb4"],
+    eco: "E20",
+    name: "Nimzo-Indian Defense",
+    desc: "Menyemat kuda putih c3 untuk mengendalikan petak pusat e4.",
+  },
+  {
+    moves: ["d4", "Nf6", "c4", "e6", "Nf3", "b6"],
+    eco: "E12",
+    name: "Queen's Indian Defense",
+    desc: "Kontrol hipermodern petak e4 melalui fianchetto b7.",
+  },
+  {
+    moves: ["d4", "Nf6", "Nf3", "d5", "Bf4"],
+    eco: "D02",
+    name: "London System",
+    desc: "Skema solid dengan penempatan gajah gelap di f4.",
+  },
+  {
+    moves: ["d4", "d5", "Bf4"],
+    eco: "D00",
+    name: "London System",
+    desc: "Sistem pembukaan skematis dengan struktur piramida d4-c3-e3.",
+  },
+  {
+    moves: ["e4", "d5"],
+    eco: "B01",
+    name: "Scandinavian Defense",
+    desc: "Tantangan langsung terhadap pion e4 sejak langkah pertama.",
+  },
+  {
+    moves: ["e4", "Nf6"],
+    eco: "B02",
+    name: "Alekhine's Defense",
+    desc: "Memancing dorongan pion pusat putih untuk diserang balik.",
+  },
+  {
+    moves: ["c4"],
+    eco: "A10",
+    name: "English Opening",
+    desc: "Pembukaan sayap fleksibel memperebutkan petak d5.",
+  },
+  {
+    moves: ["Nf3"],
+    eco: "A04",
+    name: "Réti Opening",
+    desc: "Strategi hipermodern menguasai pusat dari jarak jauh.",
+  },
+  {
+    moves: ["f4"],
+    eco: "A02",
+    name: "Bird's Opening",
+    desc: "Pendekatan sayap agresif mengontrol petak e5.",
+  },
+  {
+    moves: ["e4", "e5", "f4"],
+    eco: "C30",
+    name: "King's Gambit",
+    desc: "Pembukaan era Romantis penuh pengorbanan taktis.",
+  },
+  {
+    moves: ["e4", "e5", "Nf3", "Nf6"],
+    eco: "C42",
+    name: "Petrov's Defense",
+    desc: "Pertahanan Rusia yang simetris dan sangat solid.",
+  },
+  {
+    moves: ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6"],
+    eco: "C47",
+    name: "Four Knights Game",
+    desc: "Perkembangan simetris keempat perwira kuda.",
+  },
+  {
+    moves: ["d4", "f5"],
+    eco: "A80",
+    name: "Dutch Defense",
+    desc: "Perebutan asimetris atas petak sentral e4.",
+  },
+  {
+    moves: ["d4", "Nf6"],
+    eco: "A45",
+    name: "Indian Defense",
+    desc: "Respon hipermodern fleksibel terhadap 1.d4.",
+  },
+  {
+    moves: ["e4", "e5"],
+    eco: "C20",
+    name: "Open Game (King's Pawn)",
+    desc: "Pertempuran klasik memperebutkan pusat terbuka.",
+  },
+  {
+    moves: ["d4", "d5"],
+    eco: "D00",
+    name: "Closed Game (Queen's Pawn)",
+    desc: "Perebutan posisi berbasis manuver strategis.",
+  },
+  {
+    moves: ["e4"],
+    eco: "B00",
+    name: "King's Pawn Opening",
+    desc: "Langkah pembuka membebaskan diagonal Menteri dan Gajah.",
+  },
+  {
+    moves: ["d4"],
+    eco: "A40",
+    name: "Queen's Pawn Opening",
+    desc: "Langkah pembuka kokoh dengan perlindungan langsung atas d4.",
+  },
 ];
 
 function detectOpening(sans) {
   if (!sans || sans.length === 0) {
-    return { eco: "A00", name: "Posisi Awal", desc: "Langkah pembuka standar catur" };
+    return {
+      eco: "A00",
+      name: "Posisi Awal",
+      desc: "Langkah pembuka standar catur",
+    };
   }
   let bestMatch = null;
   let maxLen = -1;
@@ -398,17 +544,23 @@ function detectOpening(sans) {
     }
   }
 
-  return bestMatch || { eco: "A00", name: "Variasi Tidak Umum", desc: "Langkah di luar jalur buku standar" };
+  return (
+    bestMatch || {
+      eco: "A00",
+      name: "Variasi Non-Kanonik",
+      desc: "Langkah di luar jalur buku pembukaan utama",
+    }
+  );
 }
 
 /* ----------------------------------------------------------------------------
-   4. Basis Data Daily Chess Puzzle (Tantangan Taktis Skakmat 2 Langkah)
+   4. Basis Data Studi Taktis (Daily Chess Puzzles)
    ---------------------------------------------------------------------------- */
 const DAILY_PUZZLES = [
   {
     id: 0,
-    title: "Teka-teki 1: Skakmat Koridor Belakang (Back-Rank)",
-    desc: "Putih melangkah! Posisi pertahanan raja hitam di baris ke-8 rapuh. Korbankan Ratu untuk mengalihkan benteng lalu tuntaskan dengan benteng di e8!",
+    title: "Problem 01: Back-Rank Deflection",
+    desc: "Putih melangkah. Pertahanan baris ke-8 hitam bergantung pada satu benteng. Korbankan Menteri untuk mengalihkan penjagaan.",
     fen: "5rk1/ppp2ppp/8/8/8/8/4QPPP/4R1K1 w - - 0 1",
     playerColor: "w",
     moves: [
@@ -416,12 +568,12 @@ const DAILY_PUZZLES = [
       { from: "f8", to: "e8", san: "Rxe8", reply: true },
       { from: "e1", to: "e8", san: "Rxe8#" },
     ],
-    hint: "Langkahkan Ratu ke e8 (Qe8+) untuk mengalihkan benteng lawan!",
+    hint: "Langkahkan Menteri ke e8 (Qe8+) untuk memaksa benteng f8 memukul.",
   },
   {
     id: 1,
-    title: "Teka-teki 2: Paul Morphy Opera Game Mate",
-    desc: "Mahakarya Paul Morphy (1858)! Korbankan Ratu di petak b8 untuk memancing kuda hitam, lalu selesaikan dengan benteng di d8!",
+    title: "Problem 02: Paul Morphy Opera Mate (1858)",
+    desc: "Kombinasi abadi Paul Morphy di Paris. Korbankan Menteri di b8 untuk menarik kuda hitam dari penjagaan petak d8.",
     fen: "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 1",
     playerColor: "w",
     moves: [
@@ -429,12 +581,12 @@ const DAILY_PUZZLES = [
       { from: "d7", to: "b8", san: "Nxb8", reply: true },
       { from: "d1", to: "d8", san: "Rd8#" },
     ],
-    hint: "Korbankan Ratu langsung ke b8 (Qb8+)!",
+    hint: "Korbankan Menteri ke b8 (Qb8+) diikuti Benteng ke d8.",
   },
   {
     id: 2,
-    title: "Teka-teki 3: Philidor Smothered Mate (Skakmat Tercekik)",
-    desc: "Raja hitam terjepit bidaknya sendiri. Luncurkan pengorbanan Ratu di g8 lalu akhiri dengan garpu Kuda di f7!",
+    title: "Problem 03: Philidor Smothered Mate",
+    desc: "Raja hitam terkurung di sudut papan. Paksa benteng hitam menutup ruang gerak rajanya sendiri di g8, lalu akhiri dengan Kuda.",
     fen: "5r1k/6pp/4Q2N/8/8/8/8/6K1 w - - 0 1",
     playerColor: "w",
     moves: [
@@ -442,12 +594,12 @@ const DAILY_PUZZLES = [
       { from: "f8", to: "g8", san: "Rxg8", reply: true },
       { from: "h6", to: "f7", san: "Nf7#" },
     ],
-    hint: "Umpan Ratu langsung ke petak g8 (Qg8+)!",
+    hint: "Korbankan Menteri di g8 (Qg8+) lalu lompatkan Kuda ke f7.",
   },
   {
     id: 3,
-    title: "Teka-teki 4: Arabian Mate (Kuda & Benteng)",
-    desc: "Kombinasi Kuda di f6 dan Benteng. Buat manuver benteng ke baris ke-7 mengunci raja hitam yang berujung skakmat!",
+    title: "Problem 04: Arabian Mate",
+    desc: "Sinergi klasik antara Kuda dan Benteng di sudut papan. Batasi ruang raja hitam dengan menguasai baris ke-7.",
     fen: "7k/7p/5N2/8/8/8/5PPP/R5K1 w - - 0 1",
     playerColor: "w",
     moves: [
@@ -455,18 +607,16 @@ const DAILY_PUZZLES = [
       { from: "h7", to: "h6", san: "h6", reply: true },
       { from: "a7", to: "h7", san: "Rh7#" },
     ],
-    hint: "Kunci pergerakan raja dengan meluncurkan Benteng ke baris ke-7 (Ra7)!",
+    hint: "Luncurkan Benteng ke a7 (Ra7) mengancam Rh7#.",
   },
   {
     id: 4,
-    title: "Teka-teki 5: Vukovic King Hunt",
-    desc: "Raja hitam terjebak di sudut h8 dengan pion g6 mengunci ruang gerak. Selesaikan permainan dengan benteng di baris ke-8!",
+    title: "Problem 05: Vukovic Mate",
+    desc: "Raja hitam terkunci oleh jaringan Kuda e7 dan pion g6. Tuntaskan dengan langkah Benteng ke baris terakhir.",
     fen: "7k/R3N1pp/6P1/8/8/8/8/6K1 w - - 0 1",
     playerColor: "w",
-    moves: [
-      { from: "a7", to: "a8", san: "Ra8#" },
-    ],
-    hint: "Luncurkan benteng ke petak a8 (Ra8#)!",
+    moves: [{ from: "a7", to: "a8", san: "Ra8#" }],
+    hint: "Gerakkan Benteng ke petak a8 (Ra8#).",
   },
 ];
 
@@ -542,7 +692,12 @@ class ChessAI {
 
   evaluateBoard(chess, aiColor = "w") {
     if (chess.in_checkmate()) return chess.turn() === aiColor ? -99999 : 99999;
-    if (chess.in_draw() || chess.in_stalemate() || chess.in_threefold_repetition()) return 0;
+    if (
+      chess.in_draw() ||
+      chess.in_stalemate() ||
+      chess.in_threefold_repetition()
+    )
+      return 0;
 
     const board = chess.board();
     let totalScore = 0;
@@ -563,24 +718,35 @@ class ChessAI {
 
   orderMoves(moves) {
     return moves.sort((a, b) => {
-      let scoreA = 0, scoreB = 0;
-      if (a.captured) scoreA += 10 * this.pieceValues[a.captured] - this.pieceValues[a.piece];
+      let scoreA = 0,
+        scoreB = 0;
+      if (a.captured)
+        scoreA += 10 * this.pieceValues[a.captured] - this.pieceValues[a.piece];
       if (a.promotion) scoreA += this.pieceValues[a.promotion];
-      if (b.captured) scoreB += 10 * this.pieceValues[b.captured] - this.pieceValues[b.piece];
+      if (b.captured)
+        scoreB += 10 * this.pieceValues[b.captured] - this.pieceValues[b.piece];
       if (b.promotion) scoreB += this.pieceValues[b.promotion];
       return scoreB - scoreA;
     });
   }
 
   minimax(chess, depth, alpha, beta, isMaximizing, aiColor) {
-    if (depth === 0 || chess.game_over()) return this.evaluateBoard(chess, aiColor);
+    if (depth === 0 || chess.game_over())
+      return this.evaluateBoard(chess, aiColor);
     const legalMoves = this.orderMoves(chess.moves({ verbose: true }));
 
     if (isMaximizing) {
       let maxEval = -Infinity;
       for (const move of legalMoves) {
         chess.move(move);
-        const evaluation = this.minimax(chess, depth - 1, alpha, beta, false, aiColor);
+        const evaluation = this.minimax(
+          chess,
+          depth - 1,
+          alpha,
+          beta,
+          false,
+          aiColor,
+        );
         chess.undo();
         maxEval = Math.max(maxEval, evaluation);
         alpha = Math.max(alpha, evaluation);
@@ -591,7 +757,14 @@ class ChessAI {
       let minEval = Infinity;
       for (const move of legalMoves) {
         chess.move(move);
-        const evaluation = this.minimax(chess, depth - 1, alpha, beta, true, aiColor);
+        const evaluation = this.minimax(
+          chess,
+          depth - 1,
+          alpha,
+          beta,
+          true,
+          aiColor,
+        );
         chess.undo();
         minEval = Math.min(minEval, evaluation);
         beta = Math.min(beta, evaluation);
@@ -611,7 +784,8 @@ class ChessAI {
       let bestScore = -Infinity;
       for (const move of legalMoves) {
         chess.move(move);
-        const score = this.evaluateBoard(chess, aiColor) + (Math.random() - 0.5) * 60;
+        const score =
+          this.evaluateBoard(chess, aiColor) + (Math.random() - 0.5) * 60;
         chess.undo();
         if (score > bestScore) {
           bestScore = score;
@@ -629,7 +803,14 @@ class ChessAI {
 
     for (const move of legalMoves) {
       chess.move(move);
-      const boardValue = this.minimax(chess, searchDepth - 1, alpha, beta, false, aiColor);
+      const boardValue = this.minimax(
+        chess,
+        searchDepth - 1,
+        alpha,
+        beta,
+        false,
+        aiColor,
+      );
       chess.undo();
       if (boardValue > bestValue) {
         bestValue = boardValue;
@@ -665,67 +846,59 @@ class ChessAI {
 }
 
 /* ----------------------------------------------------------------------------
-   6. Generator Vektor SVG Bidak Catur Adaptif Tema
+   6. Generator Vektor SVG Bidak Catur (Refined Staunton Silhouette)
    ---------------------------------------------------------------------------- */
 function createPieceSVG(type, color, theme = "wood") {
   const isWhite = color === "w";
-  let fill, stroke, innerStroke, filter = "";
+  let fill, stroke, innerStroke;
 
   switch (theme) {
     case "cyberpunk":
       if (isWhite) {
-        fill = "#083344";
-        stroke = "#06b6d4";
-        innerStroke = "#22d3ee";
-        filter = "drop-shadow(0 0 4px rgba(6, 182, 212, 0.8))";
+        fill = "#f59e0b";
+        stroke = "#291805";
+        innerStroke = "#78350f";
       } else {
-        fill = "#500724";
-        stroke = "#ec4899";
-        innerStroke = "#f472b6";
-        filter = "drop-shadow(0 0 4px rgba(236, 72, 153, 0.8))";
+        fill = "#1c1610";
+        stroke = "#d97706";
+        innerStroke = "#b45309";
       }
       break;
 
     case "marble":
       if (isWhite) {
-        fill = "#ffffff";
-        stroke = "#d4af37";
-        innerStroke = "#fef08a";
-        filter = "drop-shadow(0 2px 4px rgba(212, 175, 55, 0.4))";
+        fill = "#f8f7f4";
+        stroke = "#262523";
+        innerStroke = "#78716c";
       } else {
-        fill = "#0f172a";
-        stroke = "#e2e8f0";
-        innerStroke = "#94a3b8";
-        filter = "drop-shadow(0 3px 5px rgba(0, 0, 0, 0.7))";
+        fill = "#1f1e1c";
+        stroke = "#d6d3cd";
+        innerStroke = "#a8a29e";
       }
       break;
 
     case "midnight":
       if (isWhite) {
-        fill = "#e0e7ff";
-        stroke = "#4338ca";
-        innerStroke = "#6366f1";
-        filter = "drop-shadow(0 2px 4px rgba(79, 70, 229, 0.4))";
+        fill = "#e6e2d8";
+        stroke = "#181715";
+        innerStroke = "#57544f";
       } else {
-        fill = "#030712";
-        stroke = "#818cf8";
-        innerStroke = "#4f46e5";
-        filter = "drop-shadow(0 3px 6px rgba(0, 0, 0, 0.8))";
+        fill = "#141311";
+        stroke = "#c59b57";
+        innerStroke = "#8c6d3b";
       }
       break;
 
     case "wood":
     default:
       if (isWhite) {
-        fill = "#fffbeb";
-        stroke = "#78350f";
-        innerStroke = "#b45309";
-        filter = "drop-shadow(0 2px 3px rgba(120, 53, 15, 0.35))";
+        fill = "#f7f2e7";
+        stroke = "#362214";
+        innerStroke = "#7c5846";
       } else {
-        fill = "#451a03";
-        stroke = "#fef3c7";
-        innerStroke = "#fde68a";
-        filter = "drop-shadow(0 3px 4px rgba(0, 0, 0, 0.5))";
+        fill = "#26170e";
+        stroke = "#e6dac8";
+        innerStroke = "#c59b57";
       }
       break;
   }
@@ -733,27 +906,61 @@ function createPieceSVG(type, color, theme = "wood") {
   let shape = "";
   switch (type) {
     case "p":
-      shape = `<circle cx="50" cy="30" r="13" /><path d="M 36 46 Q 50 40 64 46 L 68 74 L 32 74 Z" /><rect x="24" y="76" width="52" height="10" rx="4" />`;
+      shape = `
+        <circle cx="50" cy="27" r="12" />
+        <path d="M 38 41 C 38 38 62 38 62 41 C 59 53 64 64 69 73 L 31 73 C 36 64 41 53 38 41 Z" />
+        <rect x="24" y="74" width="52" height="9" rx="2" />
+        <line x1="36" y1="41" x2="64" y2="41" stroke="${innerStroke}" stroke-width="2.5" />
+      `;
       break;
     case "r":
-      shape = `<path d="M 28 22 L 28 36 L 72 36 L 72 22 L 63 22 L 63 28 L 55 28 L 55 22 L 45 22 L 45 28 L 37 28 L 37 22 Z" /><rect x="33" y="38" width="34" height="34" /><rect x="23" y="74" width="54" height="12" rx="4" />`;
+      shape = `
+        <path d="M 28 21 L 28 36 L 72 36 L 72 21 L 63 21 L 63 28 L 55 28 L 55 21 L 45 21 L 45 28 L 37 28 L 37 21 Z" />
+        <path d="M 34 36 L 31 73 L 69 73 L 66 36 Z" />
+        <rect x="23" y="74" width="54" height="9" rx="2" />
+        <line x1="34" y1="67" x2="66" y2="67" stroke="${innerStroke}" stroke-width="2.5" />
+      `;
       break;
     case "n":
-      shape = `<path d="M 30 74 L 34 42 L 26 36 L 34 20 L 48 24 Q 68 26 68 48 L 66 74 Z" /><circle cx="42" cy="31" r="3" fill="${stroke}" /><rect x="23" y="74" width="54" height="12" rx="4" />`;
+      shape = `
+        <path d="M 30 73 C 31 54 37 46 43 42 C 36 42 29 45 26 40 C 23 36 29 25 38 20 L 42 15 L 47 20 C 62 21 71 35 69 54 L 68 73 Z" />
+        <circle cx="38" cy="28" r="2.5" fill="${stroke}" />
+        <rect x="23" y="74" width="54" height="9" rx="2" />
+      `;
       break;
     case "b":
-      shape = `<circle cx="50" cy="18" r="5" /><path d="M 50 25 C 32 35 32 58 34 74 L 66 74 C 68 58 68 35 50 25 Z" /><line x1="43" y1="44" x2="57" y2="44" stroke="${innerStroke}" stroke-width="4" stroke-linecap="round" /><line x1="50" y1="37" x2="50" y2="51" stroke="${innerStroke}" stroke-width="4" stroke-linecap="round" /><rect x="23" y="74" width="54" height="12" rx="4" />`;
+      shape = `
+        <circle cx="50" cy="16" r="4.5" />
+        <path d="M 50 22 C 33 32 32 54 34 73 L 66 73 C 68 54 67 32 50 22 Z" />
+        <line x1="43" y1="42" x2="57" y2="42" stroke="${innerStroke}" stroke-width="3.5" stroke-linecap="round" />
+        <line x1="50" y1="35" x2="50" y2="49" stroke="${innerStroke}" stroke-width="3.5" stroke-linecap="round" />
+        <rect x="23" y="74" width="54" height="9" rx="2" />
+      `;
       break;
     case "q":
-      shape = `<circle cx="22" cy="28" r="4" /><circle cx="39" cy="20" r="4" /><circle cx="61" cy="20" r="4" /><circle cx="78" cy="28" r="4" /><path d="M 24 34 L 38 56 L 40 26 L 50 56 L 60 26 L 62 56 L 76 34 L 68 74 L 32 74 Z" /><rect x="23" y="74" width="54" height="12" rx="4" />`;
+      shape = `
+        <circle cx="21" cy="27" r="3.5" />
+        <circle cx="38" cy="19" r="3.5" />
+        <circle cx="50" cy="16" r="3.5" />
+        <circle cx="62" cy="19" r="3.5" />
+        <circle cx="79" cy="27" r="3.5" />
+        <path d="M 23 32 L 35 55 L 39 24 L 47 54 L 50 21 L 53 54 L 61 24 L 65 55 L 77 32 L 69 73 L 31 73 Z" />
+        <line x1="32" y1="67" x2="68" y2="67" stroke="${innerStroke}" stroke-width="2.5" />
+        <rect x="23" y="74" width="54" height="9" rx="2" />
+      `;
       break;
     case "k":
-      shape = `<line x1="50" y1="12" x2="50" y2="26" stroke="${stroke}" stroke-width="5" stroke-linecap="round" /><line x1="43" y1="18" x2="57" y2="18" stroke="${stroke}" stroke-width="5" stroke-linecap="round" /><path d="M 30 38 C 30 26 70 26 70 38 L 66 74 L 34 74 Z" /><rect x="23" y="74" width="54" height="12" rx="4" />`;
+      shape = `
+        <line x1="50" y1="10" x2="50" y2="24" stroke="${stroke}" stroke-width="4.5" stroke-linecap="round" />
+        <line x1="43" y1="16" x2="57" y2="16" stroke="${stroke}" stroke-width="4.5" stroke-linecap="round" />
+        <path d="M 30 37 C 30 24 70 24 70 37 L 67 73 L 33 73 Z" />
+        <path d="M 38 49 L 62 49" stroke="${innerStroke}" stroke-width="3" stroke-linecap="round" />
+        <rect x="23" y="74" width="54" height="9" rx="2" />
+      `;
       break;
   }
 
-  const styleAttr = filter ? `style="filter: ${filter};"` : "";
-  return `<svg viewBox="0 0 100 100" class="chess-piece" draggable="false" ${styleAttr}><g fill="${fill}" stroke="${stroke}" stroke-width="4.5" stroke-linejoin="round">${shape}</g></svg>`;
+  return `<svg viewBox="0 0 100 100" class="chess-piece" draggable="false"><g fill="${fill}" stroke="${stroke}" stroke-width="4" stroke-linejoin="round">${shape}</g></svg>`;
 }
 
 /* ----------------------------------------------------------------------------
@@ -782,7 +989,6 @@ class ScreenManager {
       }
     });
 
-    // Update highlight tombol navigasi aktif
     const navMap = {
       landing: document.getElementById("nav-btn-home"),
       game: document.getElementById("nav-btn-game"),
@@ -793,17 +999,16 @@ class ScreenManager {
       const btn = navMap[key];
       if (!btn) return;
       if (key === targetName) {
-        btn.classList.add("text-emerald-400", "font-bold", "bg-slate-800", "border", "border-emerald-500/30");
-        btn.classList.remove("text-slate-300");
+        btn.classList.add("text-brass", "border-b", "border-brass");
+        btn.classList.remove("text-muted");
       } else {
-        btn.classList.remove("text-emerald-400", "font-bold", "bg-slate-800", "border", "border-emerald-500/30");
-        btn.classList.add("text-slate-300");
+        btn.classList.remove("text-brass", "border-b", "border-brass");
+        btn.classList.add("text-muted");
       }
     });
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    // Refresh resize canvas partikel saat layar game ditampilkan
     if (targetName === "game" && this.app.particles) {
       setTimeout(() => this.app.particles.resize(), 60);
     }
@@ -818,16 +1023,28 @@ class ScreenManager {
   }
 
   bindNavigation() {
-    // Nav Brand & Home Links
-    document.getElementById("nav-brand").addEventListener("click", () => this.showScreen("landing"));
-    document.getElementById("nav-btn-home").addEventListener("click", () => this.showScreen("landing"));
-    document.getElementById("nav-btn-game").addEventListener("click", () => this.showScreen("game"));
-    document.getElementById("nav-btn-legends").addEventListener("click", () => this.showScreen("legends"));
-    document.getElementById("nav-btn-history").addEventListener("click", () => this.showScreen("history"));
-    document.getElementById("nav-btn-settings").addEventListener("click", () => this.openSettings());
+    document
+      .getElementById("nav-brand")
+      .addEventListener("click", () => this.showScreen("landing"));
+    document
+      .getElementById("nav-btn-home")
+      .addEventListener("click", () => this.showScreen("landing"));
+    document
+      .getElementById("nav-btn-game")
+      .addEventListener("click", () => this.showScreen("game"));
+    document
+      .getElementById("nav-btn-legends")
+      .addEventListener("click", () => this.showScreen("legends"));
+    document
+      .getElementById("nav-btn-history")
+      .addEventListener("click", () => this.showScreen("history"));
+    document
+      .getElementById("nav-btn-settings")
+      .addEventListener("click", () => this.openSettings());
 
-    // Back Buttons
-    document.getElementById("btn-back-landing").addEventListener("click", () => this.showScreen("landing"));
+    document
+      .getElementById("btn-back-landing")
+      .addEventListener("click", () => this.showScreen("landing"));
     document.querySelectorAll(".btn-back-home").forEach((btn) => {
       btn.addEventListener("click", () => this.showScreen("landing"));
     });
@@ -835,29 +1052,41 @@ class ScreenManager {
       btn.addEventListener("click", () => this.showScreen("game"));
     });
 
-    // Landing Page Cards & CTA Buttons
-    document.getElementById("hero-btn-play").addEventListener("click", () => this.showScreen("game"));
+    document
+      .getElementById("hero-btn-play")
+      .addEventListener("click", () => this.showScreen("game"));
     document.getElementById("hero-btn-puzzle").addEventListener("click", () => {
       this.showScreen("game");
       this.app.switchTab("puzzle");
     });
 
-    document.getElementById("card-menu-play").addEventListener("click", () => this.showScreen("game"));
-    document.getElementById("card-menu-legends").addEventListener("click", () => this.showScreen("legends"));
-    document.getElementById("card-menu-history").addEventListener("click", () => this.showScreen("history"));
-    document.getElementById("card-menu-settings").addEventListener("click", () => this.openSettings());
+    document
+      .getElementById("card-menu-play")
+      .addEventListener("click", () => this.showScreen("game"));
+    document
+      .getElementById("card-menu-legends")
+      .addEventListener("click", () => this.showScreen("legends"));
+    document
+      .getElementById("card-menu-history")
+      .addEventListener("click", () => this.showScreen("history"));
+    document
+      .getElementById("card-menu-settings")
+      .addEventListener("click", () => this.openSettings());
 
-    // Modal Settings Controls
-    document.getElementById("btn-close-settings").addEventListener("click", () => this.closeSettings());
+    document
+      .getElementById("btn-close-settings")
+      .addEventListener("click", () => this.closeSettings());
     this.modalSettings.addEventListener("click", (e) => {
       if (e.target === this.modalSettings) this.closeSettings();
     });
 
-    document.getElementById("btn-apply-settings").addEventListener("click", () => {
-      this.closeSettings();
-      this.app.applySettingsAndRestart();
-      this.showScreen("game");
-    });
+    document
+      .getElementById("btn-apply-settings")
+      .addEventListener("click", () => {
+        this.closeSettings();
+        this.app.applySettingsAndRestart();
+        this.showScreen("game");
+      });
   }
 }
 
@@ -871,7 +1100,7 @@ class ChessApp {
     this.ai = new ChessAI();
 
     this.currentTheme = "wood";
-    this.activeTab = "arena"; // 'arena' | 'puzzle'
+    this.activeTab = "arena";
 
     this.gameMode = "ai-normal";
     this.humanColor = "w";
@@ -888,7 +1117,6 @@ class ChessApp {
     this.historySnapshots = [];
     this.viewIndex = 0;
 
-    // Timer & Jam Catur
     this.baseTime = 300 * 1000;
     this.increment = 0;
     this.timers = { w: this.baseTime, b: this.baseTime };
@@ -897,7 +1125,6 @@ class ChessApp {
     this.isTimeout = false;
     this.timeoutWinner = null;
 
-    // Puzzle State
     this.currentPuzzleIndex = 0;
     this.puzzleStep = 0;
     this.puzzleSolved = false;
@@ -993,23 +1220,32 @@ class ChessApp {
       this.syncPlayerPanels();
       this.renderBoard();
       this.updateEvalBar();
-      if (this.activeHint) this.renderHintArrow(this.activeHint.from, this.activeHint.to);
+      if (this.activeHint)
+        this.renderHintArrow(this.activeHint.from, this.activeHint.to);
     });
 
     this.btnMute.addEventListener("click", () => {
       this.sound.enabled = !this.sound.enabled;
-      this.btnMute.textContent = `Suara: ${this.sound.enabled ? "Aktif" : "Mati"}`;
-      this.btnMute.className = `col-span-3 py-2 rounded-lg text-xs font-semibold transition border border-slate-700/60 ${
-        this.sound.enabled ? "bg-slate-800 text-slate-200" : "bg-rose-950/40 text-rose-300 border-rose-800/40"
+      this.btnMute.textContent = `Suara: ${this.sound.enabled ? "On" : "Off"}`;
+      this.btnMute.className = `col-span-3 py-2 text-[11px] uppercase tracking-wider transition border ${
+        this.sound.enabled
+          ? "bg-obsidian text-muted border-line"
+          : "bg-terracotta/20 text-parchment border-terracotta"
       }`;
     });
 
     this.btnHint.addEventListener("click", () => this.requestHint());
 
     this.btnFirst.addEventListener("click", () => this.jumpToMove(0));
-    this.btnPrev.addEventListener("click", () => this.jumpToMove(this.viewIndex - 1));
-    this.btnNext.addEventListener("click", () => this.jumpToMove(this.viewIndex + 1));
-    this.btnLast.addEventListener("click", () => this.jumpToMove(this.historySnapshots.length - 1));
+    this.btnPrev.addEventListener("click", () =>
+      this.jumpToMove(this.viewIndex - 1),
+    );
+    this.btnNext.addEventListener("click", () =>
+      this.jumpToMove(this.viewIndex + 1),
+    );
+    this.btnLast.addEventListener("click", () =>
+      this.jumpToMove(this.historySnapshots.length - 1),
+    );
 
     this.puzzleSelect.addEventListener("change", (e) => {
       this.currentPuzzleIndex = parseInt(e.target.value, 10);
@@ -1017,7 +1253,8 @@ class ChessApp {
     });
 
     this.btnNextPuzzle.addEventListener("click", () => {
-      this.currentPuzzleIndex = (this.currentPuzzleIndex + 1) % DAILY_PUZZLES.length;
+      this.currentPuzzleIndex =
+        (this.currentPuzzleIndex + 1) % DAILY_PUZZLES.length;
       this.puzzleSelect.value = String(this.currentPuzzleIndex);
       this.loadPuzzle(this.currentPuzzleIndex);
     });
@@ -1047,23 +1284,24 @@ class ChessApp {
     this.clearHint();
 
     if (tab === "arena") {
-      this.tabArena.className = "px-3 sm:px-4 py-1.5 rounded-lg transition duration-200 bg-emerald-600 text-white shadow";
-      this.tabPuzzle.className = "px-3 sm:px-4 py-1.5 rounded-lg transition duration-200 text-slate-400 hover:text-white";
+      this.tabArena.className =
+        "px-4 py-1.5 transition bg-parchment text-obsidian font-semibold";
+      this.tabPuzzle.className =
+        "px-4 py-1.5 transition text-muted hover:text-parchment";
       this.puzzlePanel.classList.add("hidden");
-      this.panelTitle.textContent = "Arena Pertandingan";
+      this.panelTitle.textContent = "Meja Pertandingan";
       this.startNewGame();
     } else {
-      this.tabPuzzle.className = "px-3 sm:px-4 py-1.5 rounded-lg transition duration-200 bg-amber-600 text-white shadow";
-      this.tabArena.className = "px-3 sm:px-4 py-1.5 rounded-lg transition duration-200 text-slate-400 hover:text-white";
+      this.tabPuzzle.className =
+        "px-4 py-1.5 transition bg-brass text-obsidian font-semibold";
+      this.tabArena.className =
+        "px-4 py-1.5 transition text-muted hover:text-parchment";
       this.puzzlePanel.classList.remove("hidden");
-      this.panelTitle.textContent = "Daily Chess Puzzle Challenge";
+      this.panelTitle.textContent = "Studi Problem Taktis";
       this.loadPuzzle(this.currentPuzzleIndex);
     }
   }
 
-  /* --------------------------------------------------------------------------
-     Daily Chess Puzzle Handler
-     -------------------------------------------------------------------------- */
   loadPuzzle(index) {
     this.stopClock();
     if (this.aiTimeoutId) {
@@ -1076,8 +1314,8 @@ class ChessApp {
     this.puzzleStep = 0;
     this.puzzleSolved = false;
     this.btnNextPuzzle.classList.add("hidden");
-    this.puzzleFeedback.textContent = "Cari langkah pertama...";
-    this.puzzleFeedback.className = "text-amber-400 font-semibold";
+    this.puzzleFeedback.textContent = "Temukan langkah pembuka...";
+    this.puzzleFeedback.className = "font-mono text-brass";
     this.puzzleDesc.textContent = puzzle.desc;
 
     this.game.load(puzzle.fen);
@@ -1094,18 +1332,18 @@ class ChessApp {
     this.pendingPromotion = null;
     this.clearHint();
 
-    this.topNameEl.textContent = "Lawan (Taktik)";
-    this.bottomNameEl.textContent = "Anda (Pemecah Puzzle)";
+    this.topNameEl.textContent = "Komposisi Lawan";
+    this.bottomNameEl.textContent = "Anda (Analis)";
     this.topClockEl.textContent = "--:--";
     this.bottomClockEl.textContent = "--:--";
-    this.arenaModeBadge.textContent = "Mode Puzzle Taktis";
+    this.arenaModeBadge.textContent = "Studi Taktis";
 
     this.syncPlayerPanels();
     this.renderBoard();
     this.updateMoveLog();
     this.updateEvalBar();
     this.updateOpeningDisplay();
-    this.statusEl.textContent = `${puzzle.title} — Giliran Anda!`;
+    this.statusEl.textContent = `${puzzle.title} — Giliran Anda`;
     this.alertBanner.classList.add("hidden");
   }
 
@@ -1116,8 +1354,9 @@ class ChessApp {
     if (!expectedMove || expectedMove.from !== from || expectedMove.to !== to) {
       this.sound.puzzleError();
       this.triggerScreenShake("subtle");
-      this.puzzleFeedback.textContent = "❌ Langkah belum tepat! Coba cari taktik lain.";
-      this.puzzleFeedback.className = "text-rose-400 font-bold animate-pulse";
+      this.puzzleFeedback.textContent =
+        "Langkah kurang akurat. Evaluasi kembali.";
+      this.puzzleFeedback.className = "font-mono text-terracotta font-semibold";
 
       setTimeout(() => {
         this.game.load(puzzle.fen);
@@ -1142,20 +1381,21 @@ class ChessApp {
       this.triggerScreenShake("heavy");
       this.particles.spawnVictoryCelebration(this.currentTheme);
 
-      this.puzzleFeedback.textContent = "🎉 Skakmat Sempurna! Anda berhasil memecahkan teka-teki!";
-      this.puzzleFeedback.className = "text-emerald-400 font-extrabold";
+      this.puzzleFeedback.textContent = "Solusi Tepat — Skakmat Terverifikasi.";
+      this.puzzleFeedback.className = "font-mono text-brass font-bold";
       this.btnNextPuzzle.classList.remove("hidden");
       this.showBanner(
-        "🎉 Taktik Berhasil! Skakmat sempurna dalam 2 langkah. Lanjutkan ke teka-teki berikutnya!",
-        "bg-emerald-900/90 text-emerald-200 border border-emerald-500 shadow-lg",
+        "Solusi Taktis Terverifikasi. Silakan lanjut ke problem berikutnya.",
+        "bg-obsidian text-brass border border-brass",
       );
       return true;
     }
 
     const replyMove = puzzle.moves[this.puzzleStep];
     if (replyMove && replyMove.reply) {
-      this.puzzleFeedback.textContent = "Langkah brilian! Sekarang tuntaskan skakmat...";
-      this.puzzleFeedback.className = "text-sky-300 font-bold";
+      this.puzzleFeedback.textContent =
+        "Langkah tepat. Menunggu respon lawan...";
+      this.puzzleFeedback.className = "font-mono text-parchment";
 
       setTimeout(() => {
         this.puzzleStep++;
@@ -1166,8 +1406,9 @@ class ChessApp {
           this.sound.puzzleSuccess();
           this.triggerScreenShake("heavy");
           this.particles.spawnVictoryCelebration(this.currentTheme);
-          this.puzzleFeedback.textContent = "🎉 Skakmat Sempurna! Anda berhasil memecahkan teka-teki!";
-          this.puzzleFeedback.className = "text-emerald-400 font-extrabold";
+          this.puzzleFeedback.textContent =
+            "Solusi Tepat — Skakmat Terverifikasi.";
+          this.puzzleFeedback.className = "font-mono text-brass font-bold";
           this.btnNextPuzzle.classList.remove("hidden");
         }
       }, 350);
@@ -1176,11 +1417,9 @@ class ChessApp {
     return true;
   }
 
-  /* --------------------------------------------------------------------------
-     Sistem Evaluasi Bar Keunggulan Real-time
-     -------------------------------------------------------------------------- */
   updateEvalBar() {
-    const currentFen = this.historySnapshots[this.viewIndex]?.fen || this.game.fen();
+    const currentFen =
+      this.historySnapshots[this.viewIndex]?.fen || this.game.fen();
     const tempBoard = new Chess(currentFen);
 
     let score = this.ai.evaluateBoard(tempBoard, "w");
@@ -1190,14 +1429,14 @@ class ChessApp {
     if (tempBoard.in_checkmate()) {
       if (tempBoard.turn() === "w") {
         whitePercent = 0;
-        scoreText = "M0 (Hitam Menang)";
+        scoreText = "0-1";
       } else {
         whitePercent = 100;
-        scoreText = "M0 (Putih Menang)";
+        scoreText = "1-0";
       }
     } else if (tempBoard.in_draw() || tempBoard.in_stalemate()) {
       whitePercent = 50;
-      scoreText = "0.0";
+      scoreText = "½-½";
     } else {
       const sigmoid = 1 / (1 + Math.exp(-score / 350));
       whitePercent = Math.min(97, Math.max(3, sigmoid * 100));
@@ -1211,28 +1450,34 @@ class ChessApp {
     this.evalBarScore.textContent = scoreText;
 
     if (visualHeight > 50) {
-      this.evalBarScore.style.bottom = "8px";
+      this.evalBarScore.style.bottom = "6px";
       this.evalBarScore.style.top = "auto";
-      this.evalBarScore.className = "eval-bar-score text-slate-900";
+      this.evalBarScore.className = "eval-bar-score text-obsidian";
     } else {
-      this.evalBarScore.style.top = "8px";
+      this.evalBarScore.style.top = "6px";
       this.evalBarScore.style.bottom = "auto";
-      this.evalBarScore.className = "eval-bar-score text-slate-100";
+      this.evalBarScore.className = "eval-bar-score text-parchment";
     }
   }
 
-  /* --------------------------------------------------------------------------
-     Sistem Panah Rekomendasi Hint AI
-     -------------------------------------------------------------------------- */
   requestHint() {
-    if (this.isReviewMode() || this.isGameEnded() || this.isAIThinking || !this.isHumanTurn()) return;
+    if (
+      this.isReviewMode() ||
+      this.isGameEnded() ||
+      this.isAIThinking ||
+      !this.isHumanTurn()
+    )
+      return;
 
     if (this.activeTab === "puzzle") {
       const puzzle = DAILY_PUZZLES[this.currentPuzzleIndex];
       const nextMove = puzzle.moves[this.puzzleStep];
       if (nextMove) {
         this.renderHintArrow(nextMove.from, nextMove.to);
-        this.showBanner(`Petunjuk Taktik: ${puzzle.hint}`, "bg-amber-900/80 text-amber-200 border border-amber-500");
+        this.showBanner(
+          `Petunjuk: ${puzzle.hint}`,
+          "bg-obsidian text-brass border border-brass/60",
+        );
       }
       return;
     }
@@ -1243,8 +1488,8 @@ class ChessApp {
       this.renderHintArrow(bestMove.from, bestMove.to);
       const turnName = this.game.turn() === "w" ? "Putih" : "Hitam";
       this.showBanner(
-        `💡 Saran AI untuk ${turnName}: ${bestMove.san} (${bestMove.from.toUpperCase()} ➜ ${bestMove.to.toUpperCase()})`,
-        "bg-amber-950/80 text-amber-300 border border-amber-500/80 shadow-md",
+        `Rekomendasi Engine (${turnName}): ${bestMove.san} [${bestMove.from.toUpperCase()} → ${bestMove.to.toUpperCase()}]`,
+        "bg-obsidian text-brass border border-brass/60",
       );
     }
   }
@@ -1280,7 +1525,7 @@ class ChessApp {
     const targetX = x2 - Math.cos(angle) * shortenHead;
     const targetY = y2 - Math.sin(angle) * shortenHead;
 
-    const headLength = 22;
+    const headLength = 20;
     const headAngle = Math.PI / 6;
 
     const hx1 = targetX - headLength * Math.cos(angle - headAngle);
@@ -1289,13 +1534,8 @@ class ChessApp {
     const hy2 = targetY - headLength * Math.sin(angle + headAngle);
 
     this.arrowOverlay.innerHTML = `
-      <defs>
-        <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#22c55e" flood-opacity="0.9"/>
-        </filter>
-      </defs>
       <path d="M ${x1} ${y1} L ${targetX} ${targetY}" class="hint-arrow" />
-      <polygon points="${x2},${y2} ${hx1},${hy1} ${hx2},${hy2}" fill="#22c55e" filter="url(#glow-green)" />
+      <polygon points="${x2},${y2} ${hx1},${hy1} ${hx2},${hy2}" fill="#c59b57" />
     `;
   }
 
@@ -1304,9 +1544,12 @@ class ChessApp {
     this.boardWrapper.classList.remove("shake-subtle", "shake-heavy");
     void this.boardWrapper.offsetWidth;
     this.boardWrapper.classList.add(shakeClass);
-    setTimeout(() => {
-      this.boardWrapper.classList.remove(shakeClass);
-    }, intensity === "heavy" ? 520 : 300);
+    setTimeout(
+      () => {
+        this.boardWrapper.classList.remove(shakeClass);
+      },
+      intensity === "heavy" ? 450 : 250,
+    );
   }
 
   updateOpeningDisplay() {
@@ -1362,9 +1605,10 @@ class ChessApp {
       pvp: "2 Pemain (Lokal)",
       "ai-normal": "vs AI (Normal)",
       "ai-medium": "vs AI (Sedang)",
-      "ai-hard": "vs AI (Susah)",
+      "ai-hard": "vs AI (Master)",
     };
-    this.arenaModeBadge.textContent = modeLabels[this.gameMode] || "Arena Catur";
+    this.arenaModeBadge.textContent =
+      modeLabels[this.gameMode] || "Arena Catur";
 
     if (this.isVsAI()) this.isFlipped = this.humanColor === "b";
     else this.isFlipped = false;
@@ -1411,19 +1655,22 @@ class ChessApp {
     return this.isTimeout || this.game.game_over();
   }
 
-  /* --------------------------------------------------------------------------
-     Rendering Papan Catur & FLIP System Animation
-     -------------------------------------------------------------------------- */
   renderBoard(animConfig = null) {
     this.boardEl.innerHTML = "";
-    const snapshot = this.historySnapshots[this.viewIndex] || { fen: this.game.fen() };
+    const snapshot = this.historySnapshots[this.viewIndex] || {
+      fen: this.game.fen(),
+    };
     const tempBoard = new Chess(snapshot.fen);
     const boardState = tempBoard.board();
     const inCheck = tempBoard.in_check();
     const turnColor = tempBoard.turn();
 
-    const ranks = this.isFlipped ? [0, 1, 2, 3, 4, 5, 6, 7] : [7, 6, 5, 4, 3, 2, 1, 0];
-    const files = this.isFlipped ? [7, 6, 5, 4, 3, 2, 1, 0] : [0, 1, 2, 3, 4, 5, 6, 7];
+    const ranks = this.isFlipped
+      ? [0, 1, 2, 3, 4, 5, 6, 7]
+      : [7, 6, 5, 4, 3, 2, 1, 0];
+    const files = this.isFlipped
+      ? [7, 6, 5, 4, 3, 2, 1, 0]
+      : [0, 1, 2, 3, 4, 5, 6, 7];
     const fileLetters = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
     ranks.forEach((rIdx, visualRow) => {
@@ -1438,7 +1685,8 @@ class ChessApp {
 
         if (
           snapshot.lastMove &&
-          (snapshot.lastMove.from === squareName || snapshot.lastMove.to === squareName)
+          (snapshot.lastMove.from === squareName ||
+            snapshot.lastMove.to === squareName)
         ) {
           sqEl.classList.add("highlight-move");
         }
@@ -1447,32 +1695,43 @@ class ChessApp {
           sqEl.classList.add("sq-selected");
         }
 
-        if (inCheck && piece && piece.type === "k" && piece.color === turnColor) {
+        if (
+          inCheck &&
+          piece &&
+          piece.type === "k" &&
+          piece.color === turnColor
+        ) {
           sqEl.classList.add("sq-check");
         }
 
         if (this.activeHint) {
-          if (this.activeHint.from === squareName) sqEl.classList.add("sq-hint-from");
-          if (this.activeHint.to === squareName) sqEl.classList.add("sq-hint-to");
+          if (this.activeHint.from === squareName)
+            sqEl.classList.add("sq-hint-from");
+          if (this.activeHint.to === squareName)
+            sqEl.classList.add("sq-hint-to");
         }
 
-        // Label Baris & Kolom FIDE
         if (visualCol === 0) {
           const rankLabel = document.createElement("span");
-          rankLabel.className = "absolute top-0.5 left-1 text-[10px] font-bold leading-none pointer-events-none opacity-80";
+          rankLabel.className =
+            "absolute top-1 left-1 text-[9px] font-mono font-semibold leading-none pointer-events-none opacity-75";
           rankLabel.textContent = rIdx + 1;
           sqEl.appendChild(rankLabel);
         }
 
         if (visualRow === 7) {
           const fileLabel = document.createElement("span");
-          fileLabel.className = "absolute bottom-0.5 right-1 text-[10px] font-bold leading-none pointer-events-none opacity-80";
+          fileLabel.className =
+            "absolute bottom-1 right-1 text-[9px] font-mono font-semibold leading-none pointer-events-none opacity-75";
           fileLabel.textContent = fileLetters[fIdx];
           sqEl.appendChild(fileLabel);
         }
 
-        // Animasi Ghost Bidak yang ditangkap
-        if (animConfig && animConfig.captured && animConfig.captured.square === squareName) {
+        if (
+          animConfig &&
+          animConfig.captured &&
+          animConfig.captured.square === squareName
+        ) {
           const ghostEl = document.createElement("div");
           ghostEl.className = "piece-captured-ghost";
           ghostEl.innerHTML = createPieceSVG(
@@ -1485,10 +1744,10 @@ class ChessApp {
           if (ghostEl.animate) {
             const ghostAnim = ghostEl.animate(
               [
-                { transform: "scale(1)", opacity: 0.95 },
-                { transform: "scale(0.3) rotate(15deg)", opacity: 0 },
+                { transform: "scale(1)", opacity: 0.9 },
+                { transform: "scale(0.35)", opacity: 0 },
               ],
-              { duration: 220, easing: "ease-out", fill: "forwards" },
+              { duration: 200, easing: "ease-out", fill: "forwards" },
             );
             ghostAnim.onfinish = () => ghostEl.remove();
           } else {
@@ -1496,14 +1755,17 @@ class ChessApp {
           }
         }
 
-        // Render Bidak
         if (piece) {
           const pieceWrapper = document.createElement("div");
           pieceWrapper.className = "piece-wrapper";
           if (this.draggingSquare === squareName) {
             pieceWrapper.classList.add("is-origin-hidden");
           }
-          pieceWrapper.innerHTML = createPieceSVG(piece.type, piece.color, this.currentTheme);
+          pieceWrapper.innerHTML = createPieceSVG(
+            piece.type,
+            piece.color,
+            this.currentTheme,
+          );
 
           const canInteract =
             !this.isReviewMode() &&
@@ -1520,7 +1782,6 @@ class ChessApp {
 
           sqEl.appendChild(pieceWrapper);
 
-          // FLIP Animation System (First-Last-Invert-Play)
           if (animConfig && animConfig.moves && pieceWrapper.animate) {
             const moveEntry = animConfig.moves.find((m) => m.to === squareName);
             if (moveEntry) {
@@ -1532,30 +1793,38 @@ class ChessApp {
               pieceWrapper.classList.add("animating");
               const slideAnim = pieceWrapper.animate(
                 [
-                  { transform: `translate(${deltaX}%, ${deltaY}%) scale(1.08)` },
+                  {
+                    transform: `translate(${deltaX}%, ${deltaY}%) scale(1.06)`,
+                  },
                   { transform: "translate(0%, 0%) scale(1)" },
                 ],
-                { duration: 240, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+                { duration: 220, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
               );
-              slideAnim.onfinish = () => pieceWrapper.classList.remove("animating");
+              slideAnim.onfinish = () =>
+                pieceWrapper.classList.remove("animating");
             }
           }
 
-          if (animConfig && animConfig.snapSquare === squareName && pieceWrapper.animate) {
+          if (
+            animConfig &&
+            animConfig.snapSquare === squareName &&
+            pieceWrapper.animate
+          ) {
             pieceWrapper.animate(
-              [{ transform: "scale(1.18)" }, { transform: "scale(1)" }],
-              { duration: 150, easing: "ease-out" },
+              [{ transform: "scale(1.14)" }, { transform: "scale(1)" }],
+              { duration: 140, easing: "ease-out" },
             );
           }
         }
 
-        // Indikator Titik Bantu Langkah Legal
         if (!this.isReviewMode() && !this.isAIThinking) {
           const legalMove = this.legalMoves.find((m) => m.to === squareName);
           if (legalMove) {
             const indicator = document.createElement("div");
             const isCapture = Boolean(piece) || legalMove.flags.includes("e");
-            indicator.className = isCapture ? "legal-capture absolute" : "legal-dot absolute";
+            indicator.className = isCapture
+              ? "legal-capture absolute"
+              : "legal-dot absolute";
             sqEl.appendChild(indicator);
           }
         }
@@ -1569,11 +1838,14 @@ class ChessApp {
     this.updateNavButtons();
   }
 
-  /* --------------------------------------------------------------------------
-     Pointer Events Drag & Drop System
-     -------------------------------------------------------------------------- */
   onPointerDown(e, squareName, pieceWrapper) {
-    if (this.isReviewMode() || this.isGameEnded() || this.isAIThinking || !this.isHumanTurn()) return;
+    if (
+      this.isReviewMode() ||
+      this.isGameEnded() ||
+      this.isAIThinking ||
+      !this.isHumanTurn()
+    )
+      return;
     e.stopPropagation();
 
     this.clearHint();
@@ -1582,7 +1854,6 @@ class ChessApp {
     const startY = e.clientY;
     let isDragging = false;
 
-    // Hitung legal moves & seleksi petak
     this.selectedSquare = squareName;
     this.legalMoves = this.game.moves({ square: squareName, verbose: true });
     this.renderBoard();
@@ -1595,19 +1866,23 @@ class ChessApp {
         isDragging = true;
         this.draggingSquare = squareName;
 
-        // Sembunyikan bidak di petak asal secara instan di DOM aktif
-        const liveOriginPiece = this.boardEl.querySelector(`[data-square="${squareName}"] .piece-wrapper`);
+        const liveOriginPiece = this.boardEl.querySelector(
+          `[data-square="${squareName}"] .piece-wrapper`,
+        );
         if (liveOriginPiece) {
           liveOriginPiece.classList.add("is-origin-hidden");
         }
 
-        // Buat ghost melayang mengikuti kursor/jari dengan ukuran proporsional
         const ghost = document.createElement("div");
         ghost.id = "active-drag-ghost";
         ghost.className = "piece-floating-ghost";
-        ghost.innerHTML = liveOriginPiece ? liveOriginPiece.innerHTML : pieceWrapper.innerHTML;
+        ghost.innerHTML = liveOriginPiece
+          ? liveOriginPiece.innerHTML
+          : pieceWrapper.innerHTML;
 
-        const sqEl = this.boardEl.querySelector(`[data-square="${squareName}"]`);
+        const sqEl = this.boardEl.querySelector(
+          `[data-square="${squareName}"]`,
+        );
         if (sqEl) {
           const sqRect = sqEl.getBoundingClientRect();
           ghost.style.width = `${sqRect.width}px`;
@@ -1639,13 +1914,20 @@ class ChessApp {
       this.draggingSquare = null;
 
       if (wasDragging) {
-        const liveOriginPiece = this.boardEl.querySelector(`[data-square="${squareName}"] .piece-wrapper`);
+        const liveOriginPiece = this.boardEl.querySelector(
+          `[data-square="${squareName}"] .piece-wrapper`,
+        );
         if (liveOriginPiece) {
           liveOriginPiece.classList.remove("is-origin-hidden");
         }
 
-        const elemBelow = document.elementFromPoint(upEvent.clientX, upEvent.clientY);
-        const targetSquareEl = elemBelow ? elemBelow.closest("[data-square]") : null;
+        const elemBelow = document.elementFromPoint(
+          upEvent.clientX,
+          upEvent.clientY,
+        );
+        const targetSquareEl = elemBelow
+          ? elemBelow.closest("[data-square]")
+          : null;
 
         if (targetSquareEl) {
           const targetSquare = targetSquareEl.dataset.square;
@@ -1664,7 +1946,13 @@ class ChessApp {
   }
 
   onSquareClick(squareName) {
-    if (this.isReviewMode() || this.isGameEnded() || this.isAIThinking || !this.isHumanTurn()) return;
+    if (
+      this.isReviewMode() ||
+      this.isGameEnded() ||
+      this.isAIThinking ||
+      !this.isHumanTurn()
+    )
+      return;
 
     this.clearHint();
 
@@ -1696,7 +1984,9 @@ class ChessApp {
   }
 
   tryMove(from, to, isDrag = false) {
-    const matchingMoves = this.legalMoves.filter((m) => m.from === from && m.to === to);
+    const matchingMoves = this.legalMoves.filter(
+      (m) => m.from === from && m.to === to,
+    );
     if (matchingMoves.length === 0) return;
 
     const isPromotion = matchingMoves.some((m) => m.flags.includes("p"));
@@ -1716,9 +2006,6 @@ class ChessApp {
     this.promoModal.classList.remove("hidden");
   }
 
-  /* --------------------------------------------------------------------------
-     Eksekusi Langkah FIDE & Pemicu Efek Visual Audio
-     -------------------------------------------------------------------------- */
   executeMove(from, to, promotion = "q", isDrag = false) {
     const movingColor = this.game.turn();
     const opponentColor = movingColor === "w" ? "b" : "w";
@@ -1738,7 +2025,9 @@ class ChessApp {
     }
 
     const transitions = [{ from: moveResult.from, to: moveResult.to }];
-    const activeSlides = isDrag ? [] : [{ from: moveResult.from, to: moveResult.to }];
+    const activeSlides = isDrag
+      ? []
+      : [{ from: moveResult.from, to: moveResult.to }];
 
     const rank = movingColor === "w" ? "1" : "8";
     if (moveResult.flags.includes("k")) {
@@ -1752,7 +2041,8 @@ class ChessApp {
     }
 
     let capturedData = null;
-    const isCapture = moveResult.flags.includes("c") || moveResult.flags.includes("e");
+    const isCapture =
+      moveResult.flags.includes("c") || moveResult.flags.includes("e");
     if (moveResult.captured) {
       let capSquare = moveResult.to;
       if (moveResult.flags.includes("e")) {
@@ -1770,7 +2060,7 @@ class ChessApp {
       const sqSize = rect.width / 8;
       const sparkX = targetCoord.col * sqSize + sqSize / 2;
       const sparkY = targetCoord.row * sqSize + sqSize / 2;
-      this.particles.spawnSparks(sparkX, sparkY, this.currentTheme, 35);
+      this.particles.spawnSparks(sparkX, sparkY, this.currentTheme, 18);
       this.triggerScreenShake("subtle");
     }
 
@@ -1801,9 +2091,15 @@ class ChessApp {
         const kCoord = this.squareToVisualCoords(kingSquare);
         const rect = this.boardEl.getBoundingClientRect();
         const sqSize = rect.width / 8;
-        this.particles.spawnCheckPulse(kCoord.col * sqSize + sqSize / 2, kCoord.row * sqSize + sqSize / 2);
+        this.particles.spawnCheckPulse(
+          kCoord.col * sqSize + sqSize / 2,
+          kCoord.row * sqSize + sqSize / 2,
+        );
       }
-    } else if (moveResult.flags.includes("k") || moveResult.flags.includes("q")) {
+    } else if (
+      moveResult.flags.includes("k") ||
+      moveResult.flags.includes("q")
+    ) {
       this.sound.castle();
     } else if (isCapture) {
       this.sound.capture();
@@ -1811,7 +2107,11 @@ class ChessApp {
       this.sound.move();
     }
 
-    if (!this.clockInterval && !this.game.game_over() && this.activeTab === "arena") {
+    if (
+      !this.clockInterval &&
+      !this.game.game_over() &&
+      this.activeTab === "arena"
+    ) {
       this.startClock();
     }
 
@@ -1860,20 +2160,26 @@ class ChessApp {
       if (this.isGameEnded()) return;
 
       const aiColor = this.getAIColor();
-      const bestMove = this.ai.getBestMove(this.game.fen(), this.gameMode, aiColor);
+      const bestMove = this.ai.getBestMove(
+        this.game.fen(),
+        this.gameMode,
+        aiColor,
+      );
 
       this.isAIThinking = false;
       this.aiBadgeEl.classList.add("hidden");
 
       if (bestMove) {
-        this.executeMove(bestMove.from, bestMove.to, bestMove.promotion || "q", false);
+        this.executeMove(
+          bestMove.from,
+          bestMove.to,
+          bestMove.promotion || "q",
+          false,
+        );
       }
     }, delay);
   }
 
-  /* --------------------------------------------------------------------------
-     Manajemen Waktu & Jam Pertandingan
-     -------------------------------------------------------------------------- */
   startClock() {
     this.lastTick = performance.now();
     this.clockInterval = setInterval(() => {
@@ -1927,19 +2233,23 @@ class ChessApp {
     this.bottomClockEl.textContent = this.formatTime(this.timers[bottomColor]);
 
     const activeStyle =
-      "font-mono text-xl font-bold px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-inner";
+      "font-mono text-xl font-semibold px-3 py-1 bg-obsidian text-brass border border-brass";
     const inactiveStyle =
-      "font-mono text-xl font-bold px-3 py-1 rounded-lg bg-slate-950 text-slate-400 border border-slate-800 shadow-inner";
+      "font-mono text-xl font-semibold px-3 py-1 bg-obsidian text-muted border border-line";
 
     this.topClockEl.className =
-      activeTurn === topColor && !this.isGameEnded() ? activeStyle : inactiveStyle;
+      activeTurn === topColor && !this.isGameEnded()
+        ? activeStyle
+        : inactiveStyle;
     this.bottomClockEl.className =
-      activeTurn === bottomColor && !this.isGameEnded() ? activeStyle : inactiveStyle;
+      activeTurn === bottomColor && !this.isGameEnded()
+        ? activeStyle
+        : inactiveStyle;
   }
 
   getPlayerLabel(color) {
     if (this.activeTab === "puzzle") {
-      return color === this.humanColor ? "Anda (Solver)" : "Taktik Puzzle";
+      return color === this.humanColor ? "Anda (Analis)" : "Komposisi Lawan";
     }
     const colorName = color === "w" ? "Putih" : "Hitam";
     if (!this.isVsAI()) return `Pemain ${colorName}`;
@@ -1947,7 +2257,7 @@ class ChessApp {
     const levelNames = {
       "ai-normal": "AI Normal",
       "ai-medium": "AI Sedang",
-      "ai-hard": "AI Susah",
+      "ai-hard": "AI Master",
     };
     return `${levelNames[this.gameMode]} (${colorName})`;
   }
@@ -1960,15 +2270,17 @@ class ChessApp {
     this.bottomNameEl.textContent = this.getPlayerLabel(bottomColor);
 
     const whiteAvatarClass =
-      "w-8 h-8 rounded-lg bg-slate-100 text-slate-900 border border-slate-400 flex items-center justify-center font-bold text-sm shadow";
+      "w-8 h-8 bg-parchment text-obsidian border border-line flex items-center justify-center font-mono font-bold text-xs";
     const blackAvatarClass =
-      "w-8 h-8 rounded-lg bg-slate-950 text-slate-100 border border-slate-700 flex items-center justify-center font-bold text-sm shadow-inner";
+      "w-8 h-8 bg-obsidian text-parchment border border-line flex items-center justify-center font-mono font-bold text-xs";
 
     this.topAvatarEl.textContent = topColor === "w" ? "W" : "B";
-    this.topAvatarEl.className = topColor === "w" ? whiteAvatarClass : blackAvatarClass;
+    this.topAvatarEl.className =
+      topColor === "w" ? whiteAvatarClass : blackAvatarClass;
 
     this.bottomAvatarEl.textContent = bottomColor === "w" ? "W" : "B";
-    this.bottomAvatarEl.className = bottomColor === "w" ? whiteAvatarClass : blackAvatarClass;
+    this.bottomAvatarEl.className =
+      bottomColor === "w" ? whiteAvatarClass : blackAvatarClass;
 
     this.updateClockUI();
   }
@@ -1993,10 +2305,12 @@ class ChessApp {
 
     ["q", "r", "b", "n", "p"].forEach((type) => {
       const missingBlack = Math.max(0, startCounts[type] - current.b[type]);
-      for (let i = 0; i < missingBlack; i++) capturedByWhite.push(symbols[type]);
+      for (let i = 0; i < missingBlack; i++)
+        capturedByWhite.push(symbols[type]);
 
       const missingWhite = Math.max(0, startCounts[type] - current.w[type]);
-      for (let i = 0; i < missingWhite; i++) capturedByBlack.push(symbols[type]);
+      for (let i = 0; i < missingWhite; i++)
+        capturedByBlack.push(symbols[type]);
     });
 
     const whiteStr = capturedByWhite.join("");
@@ -2019,22 +2333,26 @@ class ChessApp {
       const blackSnap = this.historySnapshots[i + 1];
 
       const tr = document.createElement("tr");
-      tr.className = "hover:bg-slate-800/60 transition";
+      tr.className = "hover:bg-charcoal transition";
 
       const tdNum = document.createElement("td");
-      tdNum.className = "py-1.5 px-2 text-slate-500 font-medium";
+      tdNum.className = "py-1.5 px-2 text-muted";
       tdNum.textContent = `${moveNumber}.`;
 
       const tdWhite = document.createElement("td");
-      tdWhite.className = `py-1.5 px-2 cursor-pointer rounded ${
-        this.viewIndex === i ? "bg-emerald-600/30 text-emerald-300 font-bold" : "text-slate-200"
+      tdWhite.className = `py-1.5 px-2 cursor-pointer ${
+        this.viewIndex === i
+          ? "bg-brass/20 text-brass font-bold"
+          : "text-parchment"
       }`;
       tdWhite.textContent = whiteSnap.san;
       tdWhite.addEventListener("click", () => this.jumpToMove(i));
 
       const tdBlack = document.createElement("td");
-      tdBlack.className = `py-1.5 px-2 cursor-pointer rounded ${
-        this.viewIndex === i + 1 ? "bg-emerald-600/30 text-emerald-300 font-bold" : "text-slate-200"
+      tdBlack.className = `py-1.5 px-2 cursor-pointer ${
+        this.viewIndex === i + 1
+          ? "bg-brass/20 text-brass font-bold"
+          : "text-parchment"
       }`;
       if (blackSnap) {
         tdBlack.textContent = blackSnap.san;
@@ -2057,7 +2375,8 @@ class ChessApp {
       animMoves = this.historySnapshots[targetIndex].transitions || [];
       this.sound.move();
     } else if (targetIndex === this.viewIndex - 1) {
-      const prevTransitions = this.historySnapshots[this.viewIndex].transitions || [];
+      const prevTransitions =
+        this.historySnapshots[this.viewIndex].transitions || [];
       animMoves = prevTransitions.map((t) => ({ from: t.to, to: t.from }));
       this.sound.move();
     }
@@ -2088,47 +2407,48 @@ class ChessApp {
     this.alertBanner.classList.add("hidden");
 
     if (this.isTimeout) {
-      this.statusEl.textContent = `Waktu Habis — ${this.timeoutWinner} Menang!`;
+      this.statusEl.textContent = `Waktu Habis — ${this.timeoutWinner} Menang`;
       this.showBanner(
-        `Permainan Berakhir: ${this.timeoutWinner} menang karena waktu lawan habis.`,
-        "bg-rose-900/80 text-rose-200 border border-rose-600",
+        `Pertandingan Selesai: ${this.timeoutWinner} menang atas waktu.`,
+        "bg-terracotta/20 text-parchment border border-terracotta",
       );
       return;
     }
 
     if (this.game.in_checkmate()) {
-      this.statusEl.textContent = `Skakmat! ${winnerName} Menang.`;
+      this.statusEl.textContent = `Skakmat — ${winnerName} Menang`;
       this.showBanner(
-        `Skakmat! ${winnerName} memenangkan pertandingan.`,
-        "bg-emerald-900/80 text-emerald-200 border border-emerald-500",
+        `Skakmat. ${winnerName} memenangkan pertandingan.`,
+        "bg-obsidian text-brass border border-brass",
       );
       return;
     }
 
     if (this.game.in_draw()) {
       let reason = "Kesepakatan / Aturan 50 Langkah";
-      if (this.game.in_stalemate()) reason = "Stalemate (Tidak ada langkah legal)";
-      else if (this.game.in_threefold_repetition()) reason = "Pengulangan Posisi 3 Kali";
-      else if (this.game.insufficient_material()) reason = "Materi Tidak Cukup (Draw)";
-      this.statusEl.textContent = `Remis — ${reason}`;
+      if (this.game.in_stalemate()) reason = "Stalemate";
+      else if (this.game.in_threefold_repetition())
+        reason = "Pengulangan Posisi 3 Kali";
+      else if (this.game.insufficient_material()) reason = "Materi Tidak Cukup";
+      this.statusEl.textContent = `Remis (${reason})`;
       this.showBanner(
-        `Permainan Berakhir Remis: ${reason}`,
-        "bg-amber-900/80 text-amber-200 border border-amber-500",
+        `Pertandingan Berakhir Remis: ${reason}`,
+        "bg-obsidian text-muted border border-line",
       );
       return;
     }
 
     if (this.isReviewMode()) {
       this.showBanner(
-        'Mode Tinjauan Riwayat: Klik tombol ">>|" untuk kembali ke giliran saat ini.',
-        "bg-sky-900/80 text-sky-200 border border-sky-500",
+        'Mode Tinjauan Arsip: Klik ">|" untuk kembali ke posisi aktif.',
+        "bg-obsidian text-parchment border border-line",
       );
     }
 
     if (this.isAIThinking) {
-      this.statusEl.textContent = `AI (${turnName}) sedang menghitung langkah...`;
+      this.statusEl.textContent = `Mesin AI (${turnName}) sedang mengalkulasi...`;
     } else if (this.game.in_check()) {
-      this.statusEl.textContent = `Giliran ${turnName} — Raja dalam posisi SKAK!`;
+      this.statusEl.textContent = `Giliran ${turnName} — Posisi Skak`;
     } else {
       this.statusEl.textContent = `Giliran ${turnName} Melangkah`;
     }
@@ -2136,7 +2456,7 @@ class ChessApp {
 
   showBanner(message, classes) {
     this.alertBanner.textContent = message;
-    this.alertBanner.className = `mt-2 px-3 py-2 rounded-xl text-xs font-semibold text-center ${classes}`;
+    this.alertBanner.className = `mt-2 px-3 py-2 font-mono text-xs text-center ${classes}`;
     this.alertBanner.classList.remove("hidden");
   }
 }

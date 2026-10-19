@@ -3,197 +3,297 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grandmaster Web Chess — Pro Arena & FIDE Masterpiece</title>
+    <title>GRANDMASTER — FIDE Chess Arena & Archive</title>
+    <!-- Google Fonts: Playfair Display, Plus Jakarta Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', "sans-serif"],
+              serif: ['"Playfair Display"', "serif"],
+              mono: ['"JetBrains Mono"', "monospace"],
+            },
+            colors: {
+              obsidian: "#111110",
+              charcoal: "#181715",
+              panel: "#1E1D1A",
+              line: "#2E2C28",
+              parchment: "#F2EFE9",
+              muted: "#9A958C",
+              brass: "#C59B57",
+              terracotta: "#B85D3B",
+            },
+          },
+        },
+      };
+    </script>
     <!-- Chess.js Library untuk Validasi Aturan FIDE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body
-    class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans select-none overflow-x-hidden"
+    class="bg-obsidian text-parchment min-h-screen flex flex-col font-sans select-none overflow-x-hidden antialiased"
   >
     <!-- ====================================================================
-         Global Navigation Bar
+         Global Navigation Bar (Architectural Grid Header)
          ==================================================================== -->
     <nav
-      class="w-full bg-slate-900/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md px-4 sm:px-8 py-3 flex justify-between items-center shadow-lg"
+      class="w-full bg-obsidian/95 border-b border-line sticky top-0 z-50 backdrop-blur-md px-4 sm:px-8 h-16 flex justify-between items-center"
     >
       <div
-        class="flex items-center gap-3 cursor-pointer group"
+        class="flex items-center gap-3.5 cursor-pointer group"
         id="nav-brand"
       >
         <div
-          class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-600 flex items-center justify-center text-xl shadow-md shadow-emerald-950/40 font-black group-hover:scale-105 transition"
+          class="w-9 h-9 border border-brass/60 bg-charcoal flex items-center justify-center text-lg text-brass font-serif transition group-hover:bg-brass group-hover:text-obsidian"
         >
           ♔
         </div>
-        <div>
-          <span class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-1.5">
-            GRANDMASTER <span class="text-emerald-400">CHESS</span>
+        <div class="flex flex-col">
+          <span
+            class="text-sm sm:text-base font-serif font-bold tracking-wider text-parchment uppercase"
+          >
+            Grandmaster
           </span>
-          <span class="text-[10px] text-slate-400 block font-medium -mt-0.5">
-            FIDE Standard & Modern Web Game
+          <span
+            class="text-[10px] font-mono uppercase tracking-widest text-muted -mt-0.5"
+          >
+            FIDE Standard Arena
           </span>
         </div>
       </div>
 
-      <div class="flex items-center gap-1 sm:gap-2 text-xs font-semibold">
+      <div class="flex items-center gap-1 sm:gap-2 text-xs font-medium">
         <button
           id="nav-btn-home"
-          class="nav-link px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition"
+          class="nav-link px-3 py-1.5 text-muted hover:text-parchment transition"
         >
           Beranda
         </button>
         <button
           id="nav-btn-game"
-          class="nav-link px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition"
+          class="nav-link px-3 py-1.5 text-muted hover:text-parchment transition"
         >
-          Arena Main
+          Arena
         </button>
         <button
           id="nav-btn-legends"
-          class="nav-link px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition hidden md:inline-block"
+          class="nav-link px-3 py-1.5 text-muted hover:text-parchment transition hidden md:inline-block"
         >
-          Legenda Dunia
+          Arsip Grandmaster
         </button>
         <button
           id="nav-btn-history"
-          class="nav-link px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition hidden md:inline-block"
+          class="nav-link px-3 py-1.5 text-muted hover:text-parchment transition hidden md:inline-block"
         >
-          Sejarah Catur
+          Kronik Sejarah
         </button>
+        <span class="h-4 w-px bg-line mx-1 hidden sm:inline-block"></span>
         <button
           id="nav-btn-settings"
-          class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition flex items-center gap-1.5 shadow-sm"
+          class="px-3.5 py-1.5 bg-charcoal hover:bg-panel text-parchment border border-line transition flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider"
         >
-          <span>⚙️</span> <span class="hidden sm:inline">Pengaturan</span>
+          <svg
+            class="w-3.5 h-3.5 text-brass"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+            />
+          </svg>
+          <span class="hidden sm:inline">Konfigurasi</span>
         </button>
       </div>
     </nav>
 
     <!-- ====================================================================
-         Screen 1: Landing Page (Menu Utama)
+         Screen 1: Landing Page (Editorial Asymmetric Layout)
          ==================================================================== -->
     <section
       id="screen-landing"
-      class="screen-view flex-1 flex flex-col items-center justify-center p-4 sm:p-8 max-w-6xl mx-auto w-full transition-opacity duration-300"
+      class="screen-view flex-1 flex flex-col justify-between p-4 sm:p-8 lg:p-12 max-w-6xl mx-auto w-full"
     >
-      <!-- Hero Header -->
-      <div class="text-center max-w-3xl my-6">
-        <div
-          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold mb-4 uppercase tracking-wider"
-        >
-          <span>⚔️</span> Pengalaman Catur Web Generasi Baru
+      <!-- Hero Editorial Section -->
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 lg:py-12 border-b border-line items-end"
+      >
+        <div class="lg:col-span-8">
+          <div class="flex items-center gap-3 mb-6">
+            <span
+              class="font-mono text-[11px] uppercase tracking-[0.2em] text-brass"
+            >
+              FIDE Laws of Chess • Edisi Komputasi
+            </span>
+            <span class="h-px w-12 bg-brass/40"></span>
+          </div>
+          <h1
+            class="text-4xl sm:text-6xl lg:text-[64px] font-serif font-normal text-parchment tracking-tight leading-[1.06]"
+          >
+            Ruang Strategi, <br />
+            <span class="italic font-normal text-brass">Kalkulasi Murni</span>
+            &amp; Arsip Catur.
+          </h1>
         </div>
-        <h1
-          class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight sm:leading-none mb-4"
-        >
-          TAKTIK. STRATEGI. <br />
-          <span
-            class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent"
-          >
-            KEMENANGAN MUTLAK.
-          </span>
-        </h1>
-        <p class="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto mb-8">
-          Uji kecerdasan Anda dalam simulasi catur standar FIDE dengan mesin AI Minimax cerdas,
-          analisis pembukaan real-time, efek visual dinamis, serta telaah sejarah dan profil para juara dunia legendaris.
-        </p>
 
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center justify-center gap-4">
-          <button
-            id="hero-btn-play"
-            class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-900/40 hover:scale-105 active:scale-95 transition"
-          >
-            Mulai Bermain Sekarang ➜
-          </button>
-          <button
-            id="hero-btn-puzzle"
-            class="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-sm shadow hover:scale-105 active:scale-95 transition flex items-center gap-2"
-          >
-            <span>🧩</span> Daily Tactical Puzzle
-          </button>
+        <div class="lg:col-span-4 flex flex-col justify-between space-y-6">
+          <p class="text-sm text-muted leading-relaxed">
+            Simulasi catur standar turnamen dengan mesin evaluasi Minimax,
+            deteksi pembukaan ECO real-time, studi taktis harian, serta
+            dokumentasi sejarah para juara dunia.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row lg:flex-col gap-3">
+            <button
+              id="hero-btn-play"
+              class="w-full px-6 py-3.5 bg-parchment hover:bg-brass text-obsidian font-mono font-semibold text-xs uppercase tracking-widest transition flex items-center justify-between"
+            >
+              <span>Masuki Arena Pertandingan</span>
+              <span>→</span>
+            </button>
+            <button
+              id="hero-btn-puzzle"
+              class="w-full px-6 py-3.5 bg-charcoal hover:bg-panel text-parchment border border-line font-mono text-xs uppercase tracking-widest transition flex items-center justify-between"
+            >
+              <span>Studi Taktis Harian (Puzzle)</span>
+              <span class="text-brass">#01–05</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Grid 4 Menu Card Utama -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full mt-6 mb-10">
+      <!-- Architectural 4-Column Index Grid -->
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-r border-b border-line my-8"
+      >
         <!-- Card 1: Mulai Bermain -->
         <div
           id="card-menu-play"
-          class="menu-card bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 p-6 rounded-2xl cursor-pointer transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-950/20 group backdrop-blur-sm"
+          class="menu-card bg-obsidian hover:bg-charcoal p-6 border-b sm:border-b-0 sm:border-r border-line cursor-pointer transition group flex flex-col justify-between min-h-[210px]"
         >
-          <div
-            class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition"
-          >
-            ♟️
+          <div>
+            <div
+              class="flex items-center justify-between font-mono text-xs text-muted mb-6"
+            >
+              <span>01 / ARENA</span>
+              <span class="text-brass group-hover:translate-x-1 transition"
+                >→</span
+              >
+            </div>
+            <h2 class="text-lg font-serif text-parchment mb-2">
+              Meja Pertandingan
+            </h2>
+            <p class="text-xs text-muted leading-relaxed">
+              Hadapi mesin AI Minimax pada tiga tingkat kedalaman kalkulasi atau
+              mainkan mode dua pemain lokal dengan jam FIDE.
+            </p>
           </div>
-          <h2 class="text-base font-bold text-white mb-2 flex items-center justify-between">
-            Mulai Bermain
-            <span class="text-emerald-400 text-xs font-mono group-hover:translate-x-1 transition">➔</span>
-          </h2>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Masuk ke arena pertandingan. Bermain 2 pemain lokal atau bertanding melawan AI adaptif FIDE (Normal, Sedang, Susah).
-          </p>
+          <div
+            class="pt-4 mt-4 border-t border-line/60 font-mono text-[10px] text-brass uppercase tracking-wider"
+          >
+            PvP Lokal • AI Engine
+          </div>
         </div>
 
         <!-- Card 2: Pemain Terhebat Dunia -->
         <div
           id="card-menu-legends"
-          class="menu-card bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 p-6 rounded-2xl cursor-pointer transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-950/20 group backdrop-blur-sm"
+          class="menu-card bg-obsidian hover:bg-charcoal p-6 border-b lg:border-b-0 lg:border-r border-line cursor-pointer transition group flex flex-col justify-between min-h-[210px]"
         >
-          <div
-            class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition"
-          >
-            👑
+          <div>
+            <div
+              class="flex items-center justify-between font-mono text-xs text-muted mb-6"
+            >
+              <span>02 / ARSIP GM</span>
+              <span class="text-brass group-hover:translate-x-1 transition"
+                >→</span
+              >
+            </div>
+            <h2 class="text-lg font-serif text-parchment mb-2">
+              Maestro &amp; Juara Dunia
+            </h2>
+            <p class="text-xs text-muted leading-relaxed">
+              Telaah rekor, filosofi posisi, dan warisan pembukaan dari Magnus
+              Carlsen, Garry Kasparov, hingga Bobby Fischer.
+            </p>
           </div>
-          <h2 class="text-base font-bold text-white mb-2 flex items-center justify-between">
-            Pemain Terhebat
-            <span class="text-amber-400 text-xs font-mono group-hover:translate-x-1 transition">➔</span>
-          </h2>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Biografi, gaya bermain, serta rekor kejuaraan para legenda dunia: Magnus Carlsen, Garry Kasparov, dan Bobby Fischer.
-          </p>
+          <div
+            class="pt-4 mt-4 border-t border-line/60 font-mono text-[10px] text-muted uppercase tracking-wider"
+          >
+            1972 — Era Modern
+          </div>
         </div>
 
         <!-- Card 3: Sejarah Catur -->
         <div
           id="card-menu-history"
-          class="menu-card bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl cursor-pointer transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-950/20 group backdrop-blur-sm"
+          class="menu-card bg-obsidian hover:bg-charcoal p-6 border-b sm:border-b-0 sm:border-r border-line cursor-pointer transition group flex flex-col justify-between min-h-[210px]"
         >
-          <div
-            class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition"
-          >
-            📜
+          <div>
+            <div
+              class="flex items-center justify-between font-mono text-xs text-muted mb-6"
+            >
+              <span>03 / KRONIK</span>
+              <span class="text-brass group-hover:translate-x-1 transition"
+                >→</span
+              >
+            </div>
+            <h2 class="text-lg font-serif text-parchment mb-2">
+              Evolusi 1.500 Tahun
+            </h2>
+            <p class="text-xs text-muted leading-relaxed">
+              Perjalanan dari Chaturanga di Lembah Gangga, Shatranj Kekhalifahan
+              Abbasiyah, hingga era komputasi FIDE.
+            </p>
           </div>
-          <h2 class="text-base font-bold text-white mb-2 flex items-center justify-between">
-            Sejarah Catur
-            <span class="text-cyan-400 text-xs font-mono group-hover:translate-x-1 transition">➔</span>
-          </h2>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Perjalanan evolusi dari Chaturanga India abad ke-6, Shatranj Persia, era Romantis, hingga standarisasi FIDE abad ke-21.
-          </p>
+          <div
+            class="pt-4 mt-4 border-t border-line/60 font-mono text-[10px] text-muted uppercase tracking-wider"
+          >
+            Abad ke-6 — Abad ke-21
+          </div>
         </div>
 
         <!-- Card 4: Pengaturan Game -->
         <div
           id="card-menu-settings"
-          class="menu-card bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 p-6 rounded-2xl cursor-pointer transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-950/20 group backdrop-blur-sm"
+          class="menu-card bg-obsidian hover:bg-charcoal p-6 cursor-pointer transition group flex flex-col justify-between min-h-[210px]"
         >
-          <div
-            class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition"
-          >
-            ⚙️
+          <div>
+            <div
+              class="flex items-center justify-between font-mono text-xs text-muted mb-6"
+            >
+              <span>04 / PARAMETER</span>
+              <span class="text-brass group-hover:translate-x-1 transition"
+                >→</span
+              >
+            </div>
+            <h2 class="text-lg font-serif text-parchment mb-2">
+              Konfigurasi Instrumen
+            </h2>
+            <p class="text-xs text-muted leading-relaxed">
+              Sesuaikan material papan (Kayu Turnamen, Marmer, Monokrom),
+              kontrol waktu Blitz/Rapid, dan akustik langkah.
+            </p>
           </div>
-          <h2 class="text-base font-bold text-white mb-2 flex items-center justify-between">
-            Pengaturan Game
-            <span class="text-purple-400 text-xs font-mono group-hover:translate-x-1 transition">➔</span>
-          </h2>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Kustomisasi tema visual papan, paket efek suara berlapis, tempo waktu pertandingan, serta pemilihan sisi bidak.
-          </p>
+          <div
+            class="pt-4 mt-4 border-t border-line/60 font-mono text-[10px] text-muted uppercase tracking-wider"
+          >
+            4 Tema • 3 Profil Audio
+          </div>
         </div>
       </div>
     </section>
@@ -203,79 +303,86 @@
          ==================================================================== -->
     <section
       id="screen-game"
-      class="screen-view hidden flex-1 flex flex-col items-center justify-center p-3 sm:p-5 max-w-6xl mx-auto w-full transition-opacity duration-300"
+      class="screen-view hidden flex-1 flex flex-col items-center justify-center p-3 sm:p-6 max-w-6xl mx-auto w-full"
     >
       <!-- Sub-header & Mode Tab Switcher -->
-      <div class="w-full mb-3 flex flex-wrap justify-between items-center gap-3">
-        <div class="flex items-center gap-2">
+      <div
+        class="w-full mb-4 pb-3 border-b border-line flex flex-wrap justify-between items-center gap-3"
+      >
+        <div class="flex items-center gap-3">
           <button
             id="btn-back-landing"
-            class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition"
+            class="px-3 py-1.5 bg-charcoal hover:bg-panel border border-line text-parchment font-mono text-xs uppercase tracking-wider flex items-center gap-2 transition"
           >
-            <span>←</span> Menu Utama
+            <span>←</span> Indeks
           </button>
-          <span class="text-xs text-slate-500">|</span>
+          <span class="text-line">|</span>
           <span
             id="arena-mode-badge"
-            class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+            class="font-mono text-[11px] uppercase tracking-widest px-2.5 py-1 bg-charcoal text-brass border border-brass/40"
           >
             vs AI (Normal)
           </span>
         </div>
 
         <!-- Mode Switcher: Arena vs Puzzle -->
-        <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
+        <div
+          class="flex bg-charcoal p-0.5 border border-line font-mono text-xs"
+        >
           <button
             id="tab-arena"
-            class="px-3 sm:px-4 py-1.5 rounded-lg transition duration-200 bg-emerald-600 text-white shadow"
+            class="px-4 py-1.5 transition bg-parchment text-obsidian font-semibold"
           >
-            🎮 Arena Pertandingan
+            Pertandingan
           </button>
           <button
             id="tab-puzzle"
-            class="px-3 sm:px-4 py-1.5 rounded-lg transition duration-200 text-slate-400 hover:text-white"
+            class="px-4 py-1.5 transition text-muted hover:text-parchment"
           >
-            🧩 Daily Puzzle
+            Studi Taktis
           </button>
         </div>
       </div>
 
       <!-- Main Game Grid -->
-      <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <!-- Kolom Kiri: Bar Evaluasi, Papan Catur & Jam Pemain -->
         <div class="lg:col-span-7 flex flex-col items-center w-full">
           <!-- Panel Pemain Atas -->
           <div
-            class="w-full max-w-[560px] flex justify-between items-center bg-slate-900/90 px-4 py-2.5 rounded-t-xl border border-slate-800 shadow-md backdrop-blur-sm"
+            class="w-full max-w-[560px] flex justify-between items-center bg-charcoal px-4 py-2.5 border border-line"
           >
             <div class="flex items-center gap-3">
               <div
                 id="top-avatar"
-                class="w-8 h-8 rounded-lg bg-slate-950 border border-slate-700 flex items-center justify-center font-bold text-sm shadow-inner"
+                class="w-8 h-8 bg-obsidian border border-line flex items-center justify-center font-mono font-bold text-xs text-parchment"
               >
                 B
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <p id="top-player-name" class="font-semibold text-sm leading-tight text-slate-200">
+                  <p
+                    id="top-player-name"
+                    class="font-medium text-sm leading-tight text-parchment"
+                  >
                     Pemain Hitam
                   </p>
                   <span
                     id="ai-thinking-badge"
-                    class="hidden text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded animate-pulse"
+                    class="hidden font-mono text-[10px] uppercase tracking-wider bg-brass/15 text-brass border border-brass/40 px-2 py-0.5 animate-pulse"
                   >
-                    AI Menghitung...
+                    Menghitung...
                   </span>
                 </div>
                 <div
                   id="top-captured"
-                  class="text-xs text-slate-400 h-4 flex items-center gap-0.5 font-mono"
+                  class="text-xs text-muted h-4 flex items-center gap-0.5 font-mono"
                 ></div>
               </div>
             </div>
             <div
               id="top-clock"
-              class="font-mono text-xl font-bold px-3 py-1 rounded-lg bg-slate-950 text-slate-300 border border-slate-800 transition shadow-inner"
+              class="font-mono text-xl font-semibold px-3 py-1 bg-obsidian text-muted border border-line transition"
             >
               05:00
             </div>
@@ -283,22 +390,28 @@
 
           <!-- Kontainer Bar Evaluasi + Papan Catur -->
           <div
-            class="w-full max-w-[560px] flex items-stretch gap-2.5 bg-slate-900/80 p-2 sm:p-3 border-x border-slate-800 shadow-2xl relative"
+            class="w-full max-w-[560px] flex items-stretch gap-3 bg-charcoal/60 p-2.5 sm:p-3 border-x border-line relative"
           >
             <!-- Bar Evaluasi Keunggulan Real-time -->
             <div
               id="eval-bar-wrapper"
               class="eval-bar-wrapper"
-              title="Evaluasi Keunggulan Putih vs Hitam"
+              title="Evaluasi Posisi Putih vs Hitam"
             >
-              <div id="eval-bar-fill" class="eval-bar-fill" style="height: 50%;"></div>
-              <span id="eval-bar-score" class="eval-bar-score text-slate-900">0.0</span>
+              <div
+                id="eval-bar-fill"
+                class="eval-bar-fill"
+                style="height: 50%"
+              ></div>
+              <span id="eval-bar-score" class="eval-bar-score text-obsidian"
+                >0.0</span
+              >
             </div>
 
             <!-- Wrapper Papan Catur & Layer Efek -->
             <div
               id="board-wrapper"
-              class="relative flex-1 aspect-square rounded-lg overflow-hidden border-2 border-slate-900 transition duration-300"
+              class="relative flex-1 aspect-square overflow-hidden border border-line transition duration-300"
             >
               <!-- Grid Papan Catur Utama -->
               <div
@@ -323,36 +436,36 @@
               <!-- Modal Promosi Bidak FIDE -->
               <div
                 id="promotion-modal"
-                class="hidden absolute inset-0 bg-slate-950/85 backdrop-blur-xs flex items-center justify-center z-40 transition-all"
+                class="hidden absolute inset-0 bg-obsidian/90 backdrop-blur-xs flex items-center justify-center z-40 transition-all"
               >
                 <div
-                  class="bg-slate-900 border border-slate-700 p-5 rounded-2xl shadow-2xl text-center"
+                  class="bg-charcoal border border-brass p-6 shadow-2xl text-center"
                 >
                   <h3
-                    class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4"
+                    class="font-mono text-xs uppercase tracking-widest text-brass mb-4"
                   >
-                    Pilih Bidak Promosi
+                    Promosi Bidak FIDE
                   </h3>
                   <div class="flex gap-3" id="promotion-options">
                     <button
                       data-piece="q"
-                      class="promo-btn bg-slate-800 hover:bg-emerald-600 border border-slate-700 p-3 rounded-xl transition transform hover:scale-110 shadow"
-                      title="Ratu"
+                      class="promo-btn bg-obsidian hover:bg-panel border border-line hover:border-brass p-3 transition"
+                      title="Menteri (Queen)"
                     ></button>
                     <button
                       data-piece="r"
-                      class="promo-btn bg-slate-800 hover:bg-emerald-600 border border-slate-700 p-3 rounded-xl transition transform hover:scale-110 shadow"
-                      title="Benteng"
+                      class="promo-btn bg-obsidian hover:bg-panel border border-line hover:border-brass p-3 transition"
+                      title="Benteng (Rook)"
                     ></button>
                     <button
                       data-piece="b"
-                      class="promo-btn bg-slate-800 hover:bg-emerald-600 border border-slate-700 p-3 rounded-xl transition transform hover:scale-110 shadow"
-                      title="Gajah"
+                      class="promo-btn bg-obsidian hover:bg-panel border border-line hover:border-brass p-3 transition"
+                      title="Gajah (Bishop)"
                     ></button>
                     <button
                       data-piece="n"
-                      class="promo-btn bg-slate-800 hover:bg-emerald-600 border border-slate-700 p-3 rounded-xl transition transform hover:scale-110 shadow"
-                      title="Kuda"
+                      class="promo-btn bg-obsidian hover:bg-panel border border-line hover:border-brass p-3 transition"
+                      title="Kuda (Knight)"
                     ></button>
                   </div>
                 </div>
@@ -362,31 +475,31 @@
 
           <!-- Panel Pemain Bawah -->
           <div
-            class="w-full max-w-[560px] flex justify-between items-center bg-slate-900/90 px-4 py-2.5 rounded-b-xl border border-slate-800 shadow-md backdrop-blur-sm"
+            class="w-full max-w-[560px] flex justify-between items-center bg-charcoal px-4 py-2.5 border border-line"
           >
             <div class="flex items-center gap-3">
               <div
                 id="bottom-avatar"
-                class="w-8 h-8 rounded-lg bg-slate-100 text-slate-900 border border-slate-400 flex items-center justify-center font-bold text-sm shadow"
+                class="w-8 h-8 bg-parchment text-obsidian border border-line flex items-center justify-center font-mono font-bold text-xs"
               >
                 W
               </div>
               <div>
                 <p
                   id="bottom-player-name"
-                  class="font-semibold text-sm leading-tight text-slate-200"
+                  class="font-medium text-sm leading-tight text-parchment"
                 >
                   Pemain Putih
                 </p>
                 <div
                   id="bottom-captured"
-                  class="text-xs text-slate-400 h-4 flex items-center gap-0.5 font-mono"
+                  class="text-xs text-muted h-4 flex items-center gap-0.5 font-mono"
                 ></div>
               </div>
             </div>
             <div
               id="bottom-clock"
-              class="font-mono text-xl font-bold px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-600 shadow-inner"
+              class="font-mono text-xl font-semibold px-3 py-1 bg-obsidian text-brass border border-brass"
             >
               05:00
             </div>
@@ -395,59 +508,68 @@
 
         <!-- Kolom Kanan: Status, Opening Explorer, PGN Move Log & Kontrol -->
         <div
-          class="lg:col-span-5 w-full bg-slate-900/90 border border-slate-800 rounded-2xl p-5 flex flex-col h-[610px] max-w-[560px] mx-auto lg:max-w-none shadow-2xl backdrop-blur-md"
+          class="lg:col-span-5 w-full bg-charcoal border border-line p-5 flex flex-col h-[610px] max-w-[560px] mx-auto lg:max-w-none"
         >
           <!-- Header Status Permainan -->
-          <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+          <div
+            class="flex justify-between items-center pb-3.5 border-b border-line"
+          >
             <div>
               <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                <h2 id="panel-title" class="text-sm font-bold text-white tracking-wide">
-                  Arena Pertandingan
+                <span class="w-2 h-2 bg-brass"></span>
+                <h2
+                  id="panel-title"
+                  class="font-serif text-base text-parchment"
+                >
+                  Meja Pertandingan
                 </h2>
               </div>
-              <p id="game-status" class="text-xs text-emerald-400 font-medium mt-0.5">
+              <p id="game-status" class="font-mono text-xs text-brass mt-0.5">
                 Giliran Putih Melangkah
               </p>
             </div>
             <button
               id="btn-new-game"
-              class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition shadow-lg shadow-emerald-900/30 active:scale-95 flex items-center gap-1.5"
+              class="bg-parchment hover:bg-brass text-obsidian font-mono text-[11px] font-semibold uppercase tracking-wider px-3.5 py-2 transition flex items-center gap-1.5"
             >
-              <span>↺</span> Mulai Ulang
+              <span>↺</span> Reset Papan
             </button>
           </div>
 
           <!-- Panel Puzzle (Aktif saat Tab Puzzle) -->
           <div
             id="puzzle-panel"
-            class="hidden flex-col gap-2.5 py-3 border-b border-slate-800 bg-amber-500/10 -mx-5 px-5"
+            class="hidden flex-col gap-2.5 py-3 border-b border-line bg-obsidian/60 -mx-5 px-5"
           >
-            <div class="flex justify-between items-center">
-              <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                <span>🧩</span> Skenario Puzzle Taktis
+            <div class="flex justify-between items-center gap-2">
+              <span
+                class="font-mono text-[11px] uppercase tracking-wider text-brass"
+              >
+                Arsip Problem
               </span>
               <select
                 id="puzzle-select"
-                class="bg-slate-950 border border-amber-500/40 rounded-lg px-2 py-1 text-xs text-amber-200 focus:outline-none"
+                class="bg-obsidian border border-line px-2.5 py-1 font-mono text-xs text-parchment focus:outline-none focus:border-brass"
               >
-                <option value="0">Teka-teki 1: Skakmat Koridor Belakang</option>
-                <option value="1">Teka-teki 2: Paul Morphy Opera Mate</option>
-                <option value="2">Teka-teki 3: Philidor Smothered Mate</option>
-                <option value="3">Teka-teki 4: Arabian Mate Kuda & Benteng</option>
-                <option value="4">Teka-teki 5: Vukovic King Hunt</option>
+                <option value="0">01 — Back-Rank Mate</option>
+                <option value="1">02 — Paul Morphy Opera Mate</option>
+                <option value="2">03 — Philidor Smothered Mate</option>
+                <option value="3">04 — Arabian Mate</option>
+                <option value="4">05 — Vukovic King Hunt</option>
               </select>
             </div>
-            <p id="puzzle-desc" class="text-xs text-slate-300 leading-relaxed font-normal">
-              Putih melangkah. Selesaikan skakmat dalam 2 langkah!
+            <p id="puzzle-desc" class="text-xs text-muted leading-relaxed">
+              Putih melangkah. Selesaikan skakmat dalam 2 langkah.
             </p>
-            <div class="flex justify-between items-center text-xs">
-              <span id="puzzle-feedback" class="text-amber-400 font-semibold">Cari langkah pertama...</span>
+            <div class="flex justify-between items-center text-xs pt-1">
+              <span id="puzzle-feedback" class="font-mono text-brass"
+                >Temukan langkah pembuka...</span
+              >
               <button
                 id="btn-next-puzzle"
-                class="hidden px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded-md transition"
+                class="hidden px-3 py-1 bg-brass text-obsidian font-mono font-semibold text-[11px] uppercase tracking-wider transition"
               >
-                Teka-teki Berikutnya ➜
+                Problem Berikutnya →
               </button>
             </div>
           </div>
@@ -455,108 +577,113 @@
           <!-- Widget Opening Explorer -->
           <div
             id="opening-explorer-panel"
-            class="py-2.5 px-3 my-2 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between"
+            class="py-2.5 px-3 my-2.5 bg-obsidian border border-line flex items-center justify-between"
           >
-            <div class="flex items-center gap-2.5">
-              <div
-                class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-sm"
+            <div class="flex items-center gap-3 min-w-0">
+              <span
+                id="opening-eco"
+                class="font-mono text-xs font-semibold px-2 py-1 bg-charcoal border border-line text-brass shrink-0"
               >
-                📖
-              </div>
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <span id="opening-eco" class="text-[10px] font-mono px-1 rounded bg-slate-800 text-slate-400">
-                    A00
-                  </span>
-                  <span id="opening-name" class="text-xs font-semibold text-slate-200 truncate max-w-[200px]">
-                    Posisi Awal
-                  </span>
-                </div>
-                <p id="opening-desc" class="text-[10px] text-slate-500 truncate max-w-[240px]">
+                A00
+              </span>
+              <div class="min-w-0">
+                <p
+                  id="opening-name"
+                  class="text-xs font-semibold text-parchment truncate"
+                >
+                  Posisi Awal
+                </p>
+                <p id="opening-desc" class="text-[11px] text-muted truncate">
                   Langkah pembuka standar catur
                 </p>
               </div>
             </div>
-            <span class="text-[10px] text-emerald-400 font-mono font-medium">Opening Explorer</span>
+            <span
+              class="font-mono text-[10px] uppercase tracking-widest text-muted shrink-0 ml-2"
+            >
+              ECO Index
+            </span>
           </div>
 
           <!-- Banner Peringatan / Review Mode / Hasil Akhir -->
           <div
             id="alert-banner"
-            class="hidden mt-1 px-3 py-2 rounded-xl text-xs font-semibold text-center"
+            class="hidden mt-1 px-3 py-2 font-mono text-xs text-center"
           ></div>
 
           <!-- Tabel Log Notasi Aljabar (PGN) -->
           <div
-            class="flex-1 overflow-y-auto my-2 bg-slate-950/80 rounded-xl border border-slate-800 p-2 shadow-inner"
+            class="flex-1 overflow-y-auto my-2 bg-obsidian border border-line p-2"
             id="move-log-container"
           >
             <table class="w-full text-left text-xs font-mono">
               <thead>
-                <tr class="text-slate-500 border-b border-slate-800">
-                  <th class="py-1 px-2 w-12">#</th>
-                  <th class="py-1 px-2">Putih</th>
-                  <th class="py-1 px-2">Hitam</th>
+                <tr
+                  class="text-muted border-b border-line text-[11px] uppercase"
+                >
+                  <th class="py-1.5 px-2 w-12">No.</th>
+                  <th class="py-1.5 px-2">Putih</th>
+                  <th class="py-1.5 px-2">Hitam</th>
                 </tr>
               </thead>
-              <tbody id="move-log-body" class="divide-y divide-slate-800/40"></tbody>
+              <tbody id="move-log-body" class="divide-y divide-line/40"></tbody>
             </table>
           </div>
 
           <!-- Navigasi Riwayat Langkah & Utilitas Pro -->
-          <div class="pt-2 border-t border-slate-800 flex flex-col gap-2">
+          <div class="pt-2.5 border-t border-line flex flex-col gap-2">
             <!-- Row 1: Navigasi Langkah Mundur / Maju -->
-            <div class="grid grid-cols-4 gap-2">
+            <div class="grid grid-cols-4 gap-1.5 font-mono">
               <button
                 id="btn-first"
-                class="bg-slate-800 hover:bg-slate-700 border border-slate-700/60 disabled:opacity-30 py-1.5 rounded-lg text-xs font-bold transition shadow-sm"
+                class="bg-obsidian hover:bg-panel border border-line disabled:opacity-30 py-1.5 text-xs font-semibold transition"
                 title="Langkah Pertama"
               >
-                |&lt;&lt;
+                |&lt;
               </button>
               <button
                 id="btn-prev"
-                class="bg-slate-800 hover:bg-slate-700 border border-slate-700/60 disabled:opacity-30 py-1.5 rounded-lg text-xs font-bold transition shadow-sm"
+                class="bg-obsidian hover:bg-panel border border-line disabled:opacity-30 py-1.5 text-xs font-semibold transition"
                 title="Langkah Sebelumnya"
               >
                 &lt;
               </button>
               <button
                 id="btn-next"
-                class="bg-slate-800 hover:bg-slate-700 border border-slate-700/60 disabled:opacity-30 py-1.5 rounded-lg text-xs font-bold transition shadow-sm"
+                class="bg-obsidian hover:bg-panel border border-line disabled:opacity-30 py-1.5 text-xs font-semibold transition"
                 title="Langkah Berikutnya"
               >
                 &gt;
               </button>
               <button
                 id="btn-last"
-                class="bg-slate-800 hover:bg-slate-700 border border-slate-700/60 disabled:opacity-30 py-1.5 rounded-lg text-xs font-bold transition shadow-sm"
+                class="bg-obsidian hover:bg-panel border border-line disabled:opacity-30 py-1.5 text-xs font-semibold transition"
                 title="Posisi Terkini"
               >
-                &gt;&gt;|
+                &gt;|
               </button>
             </div>
 
             <!-- Row 2: Tombol Aksi (Hint AI, Putar Papan, Toggle Suara) -->
-            <div class="grid grid-cols-12 gap-2">
+            <div class="grid grid-cols-12 gap-1.5 font-mono">
               <button
                 id="btn-hint"
-                class="col-span-5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold py-2 px-3 rounded-lg text-xs transition shadow-md flex items-center justify-center gap-1.5"
-                title="Tampilkan Rekomendasi Langkah Terbaik AI"
+                class="col-span-5 bg-brass/15 hover:bg-brass hover:text-obsidian text-brass border border-brass/50 font-semibold py-2 px-3 text-[11px] uppercase tracking-wider transition"
+                title="Tampilkan Analisis Langkah Terbaik"
               >
-                <span>💡</span> Saran AI
+                Analisis AI
               </button>
               <button
                 id="btn-flip"
-                class="col-span-4 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 py-2 rounded-lg text-xs font-semibold transition"
+                class="col-span-4 bg-obsidian hover:bg-panel border border-line py-2 text-[11px] uppercase tracking-wider text-parchment transition"
               >
-                Putar Papan
+                Balik Papan
               </button>
               <button
                 id="btn-mute"
-                class="col-span-3 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 py-2 rounded-lg text-xs font-semibold transition text-slate-300"
+                class="col-span-3 bg-obsidian hover:bg-panel border border-line py-2 text-[11px] uppercase tracking-wider text-muted transition"
               >
-                Suara: Aktif
+                Suara: On
               </button>
             </div>
           </div>
@@ -565,102 +692,142 @@
     </section>
 
     <!-- ====================================================================
-         Screen 3: Pemain Terhebat Dunia (Legends Article Screen)
+         Screen 3: Pemain Terhebat Dunia (Legends Editorial Screen)
          ==================================================================== -->
     <section
       id="screen-legends"
-      class="screen-view hidden flex-1 flex flex-col items-center p-4 sm:p-8 max-w-5xl mx-auto w-full transition-opacity duration-300"
+      class="screen-view hidden flex-1 flex flex-col items-center p-4 sm:p-8 max-w-5xl mx-auto w-full"
     >
-      <div class="w-full mb-6 flex justify-between items-center border-b border-slate-800 pb-4">
+      <div
+        class="w-full mb-8 flex flex-wrap justify-between items-end border-b border-line pb-5 gap-4"
+      >
         <div>
           <button
-            class="btn-back-home text-xs text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1.5 mb-1 transition"
+            class="btn-back-home font-mono text-xs uppercase tracking-widest text-brass hover:underline flex items-center gap-2 mb-2 transition"
           >
-            <span>←</span> Kembali ke Menu
+            <span>←</span> Kembali ke Indeks
           </button>
-          <h2 class="text-2xl sm:text-3xl font-black text-white">
-            Pemain Terhebat Dunia Sepanjang Masa
+          <h2 class="text-3xl sm:text-4xl font-serif text-parchment">
+            Arsip Grandmaster Dunia
           </h2>
-          <p class="text-xs text-slate-400 mt-0.5">
-            Mengenal maestro strategi teragung yang mengubah jalannya sejarah catur internasional.
+          <p class="text-xs text-muted mt-1">
+            Tiga pilar strategi yang mendefinisikan ulang teori pembukaan dan
+            permainan akhir.
           </p>
         </div>
         <button
-          class="btn-go-play bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow"
+          class="btn-go-play bg-parchment hover:bg-brass text-obsidian font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 transition"
         >
-          Masuk Arena ➜
+          Buka Arena →
         </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10">
+      <div
+        class="grid grid-cols-1 md:grid-cols-3 border-t border-l border-r border-b border-line w-full mb-10"
+      >
         <!-- Legend 1: Magnus Carlsen -->
         <article
-          class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-emerald-500/40 transition shadow-lg"
+          class="bg-charcoal p-7 flex flex-col justify-between border-b md:border-b-0 md:border-r border-line"
         >
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl mb-4">
-              🇳🇴
+            <div
+              class="flex justify-between items-center font-mono text-xs text-muted mb-6"
+            >
+              <span>NORWEGIA</span>
+              <span class="text-brass">ELO 2882</span>
             </div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-              Era Modern (2013–Sekarang)
+            <span
+              class="font-mono text-[10px] uppercase tracking-widest text-brass"
+            >
+              Juara Dunia 2013–2023
             </span>
-            <h3 class="text-xl font-black text-white mt-1">Magnus Carlsen</h3>
-            <p class="text-xs text-slate-400 font-mono mb-4">Rating Puncak: 2882 (Rekor Tertinggi)</p>
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              Juara Dunia Klasik 5 kali berturut-turut (2013–2023) dan peraih gelar Triple Crown catur (Klasik, Rapid, dan Blitz). Terkenal dengan pemahaman posisional luar biasa dan kemampuan memeras kemenangan dari posisi endgame yang tampak remis (*Carlsen Endgame Squeeze*).
+            <h3 class="text-2xl font-serif text-parchment mt-1 mb-4">
+              Magnus Carlsen
+            </h3>
+            <p class="text-xs text-muted leading-relaxed mb-6">
+              Pemegang rekor rating FIDE tertinggi sepanjang sejarah dan
+              penguasa mutlak Triple Crown (Klasik, Rapid, Blitz). Dikenal
+              dengan intuisi posisional universal dan teknik *endgame*
+              mikroskopis yang memaksa lawan menyerah pada posisi yang tampak
+              seimbang.
             </p>
           </div>
-          <div class="border-t border-slate-800 pt-3">
-            <blockquote class="text-[11px] text-slate-400 italic">
-              "Some people think that if their opponent plays a beautiful game, it's okay to lose. I try not to give them the chance."
+          <div class="border-t border-line pt-4">
+            <blockquote
+              class="font-serif text-xs text-parchment/90 italic leading-relaxed"
+            >
+              "Sebagian orang menganggap wajar kalah bila lawan memainkan partai
+              yang indah. Saya berusaha tidak memberi mereka kesempatan itu."
             </blockquote>
           </div>
         </article>
 
         <!-- Legend 2: Garry Kasparov -->
         <article
-          class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-amber-500/40 transition shadow-lg"
+          class="bg-charcoal p-7 flex flex-col justify-between border-b md:border-b-0 md:border-r border-line"
         >
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mb-4">
-              🇷🇺
+            <div
+              class="flex justify-between items-center font-mono text-xs text-muted mb-6"
+            >
+              <span>UNI SOVIET / RUSIA</span>
+              <span class="text-brass">ELO 2851</span>
             </div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">
-              Era Dominasi Emas (1985–2000)
+            <span
+              class="font-mono text-[10px] uppercase tracking-widest text-brass"
+            >
+              Juara Dunia 1985–2000
             </span>
-            <h3 class="text-xl font-black text-white mt-1">Garry Kasparov</h3>
-            <p class="text-xs text-slate-400 font-mono mb-4">Peringkat #1 Dunia: 255 Bulan</p>
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              Juara dunia termuda dalam sejarah pada usia 22 tahun setelah menumbangkan Anatoly Karpov. Menggabungkan kalkulasi taktis tajam, agresi tanpa kompromi, serta riset pembukaan mendalam. Dikenal pula lewat duel legendaris manusia vs komputer melawan superkomputer IBM Deep Blue (1997).
+            <h3 class="text-2xl font-serif text-parchment mt-1 mb-4">
+              Garry Kasparov
+            </h3>
+            <p class="text-xs text-muted leading-relaxed mb-6">
+              Juara dunia termuda pada usia 22 tahun yang mendominasi peringkat
+              #1 dunia selama 255 bulan. Memadukan persiapan pembukaan ilmiah
+              dengan dinamika serangan yang agresif, serta menjadi simbol
+              pertempuran kognitif manusia melawan IBM Deep Blue.
             </p>
           </div>
-          <div class="border-t border-slate-800 pt-3">
-            <blockquote class="text-[11px] text-slate-400 italic">
-              "Chess is mental torture. You have to have that inner killer instinct."
+          <div class="border-t border-line pt-4">
+            <blockquote
+              class="font-serif text-xs text-parchment/90 italic leading-relaxed"
+            >
+              "Catur adalah penyiksaan mental. Anda harus memiliki naluri
+              penuntas di dalam diri Anda."
             </blockquote>
           </div>
         </article>
 
         <!-- Legend 3: Bobby Fischer -->
-        <article
-          class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-cyan-500/40 transition shadow-lg"
-        >
+        <article class="bg-charcoal p-7 flex flex-col justify-between">
           <div>
-            <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-3xl mb-4">
-              🇺🇸
+            <div
+              class="flex justify-between items-center font-mono text-xs text-muted mb-6"
+            >
+              <span>AMERIKA SERIKAT</span>
+              <span class="text-brass">ELO 2785</span>
             </div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">
-              Era Perang Dingin (1972)
+            <span
+              class="font-mono text-[10px] uppercase tracking-widest text-brass"
+            >
+              Juara Dunia 1972–1975
             </span>
-            <h3 class="text-xl font-black text-white mt-1">Bobby Fischer</h3>
-            <p class="text-xs text-slate-400 font-mono mb-4">Match of the Century (Reykjavik 1972)</p>
-            <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              Sensasi catur Amerika yang meruntuhkan hegemoni Uni Soviet sendirian dalam "Match of the Century" melawan Boris Spassky. Fischer memukau dunia dengan skor sempurna 6-0 berturut-turut di babak Candidates, ketelitian ilmiah mutlak, dan penciptaan varian *Fischer Random (Chess960)*.
+            <h3 class="text-2xl font-serif text-parchment mt-1 mb-4">
+              Bobby Fischer
+            </h3>
+            <p class="text-xs text-muted leading-relaxed mb-6">
+              Arsitek kemenangan bersejarah di Reykjavik 1972 yang menghentikan
+              hegemoni catur Soviet seorang diri. Mencatat rekor kemenangan
+              beruntun 20 partai melawan tingkat Grandmaster elit dan mewariskan
+              sistem jam *Fischer Increment* serta Chess960.
             </p>
           </div>
-          <div class="border-t border-slate-800 pt-3">
-            <blockquote class="text-[11px] text-slate-400 italic">
-              "I don't believe in psychology. I believe in good moves. Chess is life."
+          <div class="border-t border-line pt-4">
+            <blockquote
+              class="font-serif text-xs text-parchment/90 italic leading-relaxed"
+            >
+              "Saya tidak percaya pada psikologi. Saya hanya percaya pada
+              langkah yang kuat."
             </blockquote>
           </div>
         </article>
@@ -672,95 +839,120 @@
          ==================================================================== -->
     <section
       id="screen-history"
-      class="screen-view hidden flex-1 flex flex-col items-center p-4 sm:p-8 max-w-5xl mx-auto w-full transition-opacity duration-300"
+      class="screen-view hidden flex-1 flex flex-col items-center p-4 sm:p-8 max-w-5xl mx-auto w-full"
     >
-      <div class="w-full mb-6 flex justify-between items-center border-b border-slate-800 pb-4">
+      <div
+        class="w-full mb-8 flex flex-wrap justify-between items-end border-b border-line pb-5 gap-4"
+      >
         <div>
           <button
-            class="btn-back-home text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1.5 mb-1 transition"
+            class="btn-back-home font-mono text-xs uppercase tracking-widest text-brass hover:underline flex items-center gap-2 mb-2 transition"
           >
-            <span>←</span> Kembali ke Menu
+            <span>←</span> Kembali ke Indeks
           </button>
-          <h2 class="text-2xl sm:text-3xl font-black text-white">
-            Kronik Sejarah Catur: Dari Chaturanga ke FIDE Modern
+          <h2 class="text-3xl sm:text-4xl font-serif text-parchment">
+            Kronik Sejarah Catur
           </h2>
-          <p class="text-xs text-slate-400 mt-0.5">
-            Evolusi permainan strategi tertua peradaban manusia selama lebih dari 1.500 tahun.
+          <p class="text-xs text-muted mt-1">
+            Dari papan Ashtapada di India Kuno hingga kode regulasi FIDE modern.
           </p>
         </div>
         <button
-          class="btn-go-play bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl transition shadow"
+          class="btn-go-play bg-parchment hover:bg-brass text-obsidian font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 transition"
         >
-          Masuk Arena ➜
+          Buka Arena →
         </button>
       </div>
 
-      <!-- Timeline Cards -->
-      <div class="space-y-5 w-full mb-10">
+      <!-- Timeline List -->
+      <div class="w-full border-t border-line mb-10">
         <!-- Epoch 1 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row gap-5 items-start">
-          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center text-xl shrink-0 font-bold">
-            01
+        <div
+          class="py-6 border-b border-line grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline"
+        >
+          <div
+            class="md:col-span-3 font-mono text-xs text-brass uppercase tracking-wider"
+          >
+            01 / Abad ke-6 M
           </div>
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs font-mono font-bold text-cyan-400">Abad ke-6 Masehi (India Kuno)</span>
-              <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">Chaturanga</span>
-            </div>
-            <h3 class="text-base font-bold text-white mb-2">Lahirnya Chaturanga di Lembah Gangga</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Catur diyakini berakar dari permainan <em>Chaturanga</em> pada masa Kekaisaran Gupta di India. Nama Chaturanga mengacu pada empat divisi militer Sanskerta kuno: Infanteri (*Pawn*), Kavaleri (*Knight*), Gajah Tempur (*Bishop*), dan Kereta Perang (*Rook*), dipimpin oleh seorang Raja (*Rajah*) dan Penasihat Militer (*Mantri*). Permainan dimainkan di papan 8x8 kotak tanpa warna bernama <em>Ashtāpada</em>.
+          <div class="md:col-span-9">
+            <h3 class="text-xl font-serif text-parchment mb-2">
+              Chaturanga di Kekaisaran Gupta
+            </h3>
+            <p class="text-xs text-muted leading-relaxed">
+              Berakar di Lembah Sungai Gangga, India. Istilah
+              <em>Chaturanga</em> merujuk pada empat divisi militer Sanskerta:
+              infanteri (pion), kavaleri (kuda), gajah tempur, dan kereta perang
+              (benteng), yang bertempur di atas papan 8×8 tanpa warna bernama
+              <em>Ashtāpada</em>.
             </p>
           </div>
         </div>
 
         <!-- Epoch 2 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row gap-5 items-start">
-          <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center text-xl shrink-0 font-bold">
-            02
+        <div
+          class="py-6 border-b border-line grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline"
+        >
+          <div
+            class="md:col-span-3 font-mono text-xs text-brass uppercase tracking-wider"
+          >
+            02 / Abad ke-7 – 10 M
           </div>
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs font-mono font-bold text-amber-400">Abad ke-7 – 10 Masehi (Persia & Islam)</span>
-              <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">Shatranj</span>
-            </div>
-            <h3 class="text-base font-bold text-white mb-2">Transformasi Menjadi Shatranj & Lahirnya Istilah "Shah Mat"</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Melalui Jalur Sutra, permainan diadopsi bangsa Persia sebagai <em>Chatrang</em>, lalu menyebar ke seluruh Kekhalifahan Islam sebagai <em>Shatranj</em>. Di era keemasan Baghdad, lahir master-master catur pertama (*Aliyat*) seperti Al-Adli dan As-Suli yang menulis manuskrip taktik dan studi problem catur (*Mansubat*). Dari bahasa Persia lahir seruan <strong>"Shāh Māt"</strong> (Raja tak berdaya), asal usul kata modern <em>Checkmate</em> atau <em>Skakmat</em>.
+          <div class="md:col-span-9">
+            <h3 class="text-xl font-serif text-parchment mb-2">
+              Shatranj Persia &amp; Manuskrip Baghdad
+            </h3>
+            <p class="text-xs text-muted leading-relaxed">
+              Diadopsi oleh Dinasti Sasaniyah sebagai <em>Chatrang</em> dan
+              berkembang pesat di dunia Islam sebagai <em>Shatranj</em>. Para
+              cendekiawan seperti Al-Adli dan As-Suli menyusun literatur
+              analisis pembukaan dan problem akhir permainan
+              (<em>Mansubat</em>), sekaligus melahirkan istilah
+              <strong>"Shāh Māt"</strong>.
             </p>
           </div>
         </div>
 
         <!-- Epoch 3 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row gap-5 items-start">
-          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-xl shrink-0 font-bold">
-            03
+        <div
+          class="py-6 border-b border-line grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline"
+        >
+          <div
+            class="md:col-span-3 font-mono text-xs text-brass uppercase tracking-wider"
+          >
+            03 / Sekitar 1475
           </div>
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs font-mono font-bold text-emerald-400">Abad ke-15 (Renaisans Eropa)</span>
-              <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">Mad Queen Chess</span>
-            </div>
-            <h3 class="text-base font-bold text-white mb-2">Revolusi "Ratu Gila" dan Kelahiran Catur Modern</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Memasuki Spanyol dan Italia sekitar tahun 1475, aturan catur mengalami metamorfosis radikal: figur penasihat yang lemah diubah menjadi <strong>Ratu (Queen)</strong> dengan daya serang paling mematikan (bisa melangkah tak terbatas secara horizontal, vertikal, dan diagonal). Gajah memperoleh jelajah diagonal penuh, aturan langkah awal pion 2 petak diperkenalkan, serta diciptakannya aturan <em>En Passant</em> dan <em>Rokade (Castling)</em> untuk mempercepat duel.
+          <div class="md:col-span-9">
+            <h3 class="text-xl font-serif text-parchment mb-2">
+              Reformasi Renaisans Eropa (Scacchi alla Rabiosa)
+            </h3>
+            <p class="text-xs text-muted leading-relaxed">
+              Di Valencia dan Italia, bidak penasihat (*Fers*) bertransformasi
+              menjadi Menteri/Ratu (*Queen*) dengan jangkauan gerak lintas arah.
+              Aturan lompatan dua petak awal pion, *En Passant*, serta rokade
+              menetapkan tempo cepat yang kita kenal saat ini.
             </p>
           </div>
         </div>
 
         <!-- Epoch 4 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row gap-5 items-start">
-          <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center text-xl shrink-0 font-bold">
-            04
+        <div
+          class="py-6 border-b border-line grid grid-cols-1 md:grid-cols-12 gap-4 items-baseline"
+        >
+          <div
+            class="md:col-span-3 font-mono text-xs text-brass uppercase tracking-wider"
+          >
+            04 / 1886 – Sekarang
           </div>
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs font-mono font-bold text-purple-400">1886 – Abad ke-21 (FIDE & Era AI)</span>
-              <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">World Championship</span>
-            </div>
-            <h3 class="text-base font-bold text-white mb-2">Lahirnya FIDE, Kejuaraan Dunia Resmi, & Revolusi Digital</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Tahun 1886, Wilhelm Steinitz dinobatkan sebagai Juara Dunia Catur resmi pertama. Pada tahun 1924 di Paris, Federasi Catur Internasional (<strong>FIDE</strong>) resmi didirikan. Di era modern, catur bertransformasi dengan kehadiran jam catur mekanis/digital, notasi aljabar internasional, hingga era kecerdasan buatan komputasi catur modern yang kita nikmati saat ini.
+          <div class="md:col-span-9">
+            <h3 class="text-xl font-serif text-parchment mb-2">
+              Standarisasi FIDE &amp; Era Komputasi
+            </h3>
+            <p class="text-xs text-muted leading-relaxed">
+              Dimulai dari mahkota resmi Wilhelm Steinitz pada 1886, desain
+              bidak <em>Staunton</em> sebagai standar turnamen, berdirinya FIDE
+              di Paris (1924), hingga hadirnya mesin pencari pohon keputusan dan
+              *neural network* modern.
             </p>
           </div>
         </div>
@@ -772,118 +964,149 @@
          ==================================================================== -->
     <div
       id="modal-settings"
-      class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 transition-all"
+      class="hidden fixed inset-0 z-50 bg-obsidian/85 backdrop-blur-xs flex items-center justify-center p-4 transition-all"
     >
       <div
-        class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative"
+        class="bg-charcoal border border-line max-w-md w-full p-6 shadow-2xl relative"
       >
-        <div class="flex justify-between items-center pb-3 border-b border-slate-800 mb-4">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">⚙️</span>
-            <h3 class="text-base font-bold text-white">Pengaturan Game Catur</h3>
+        <div
+          class="flex justify-between items-center pb-3.5 border-b border-line mb-5"
+        >
+          <div>
+            <span
+              class="font-mono text-[10px] uppercase tracking-widest text-brass block"
+            >
+              Parameter Pertandingan
+            </span>
+            <h3 class="text-lg font-serif text-parchment">Konfigurasi Arena</h3>
           </div>
           <button
             id="btn-close-settings"
-            class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 text-sm font-bold"
+            class="text-muted hover:text-parchment px-2 py-1 font-mono text-sm"
           >
             ✕
           </button>
         </div>
 
-        <div class="space-y-3.5 text-xs">
+        <div class="space-y-4 text-xs">
           <!-- Pilihan Mode Lawan -->
           <div>
-            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
+            <label
+              class="block font-mono text-[10px] uppercase tracking-wider text-muted mb-1.5"
+            >
               Mode Lawan Pertandingan
             </label>
             <select
               id="game-mode"
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500"
+              class="w-full bg-obsidian border border-line px-3 py-2.5 text-parchment focus:outline-none focus:border-brass font-mono text-xs"
             >
-              <option value="pvp">2 Pemain (Lokal - Pass & Play)</option>
-              <option value="ai-normal" selected>vs AI FIDE (Tingkat Normal)</option>
+              <option value="pvp">2 Pemain (Lokal — Pass &amp; Play)</option>
+              <option value="ai-normal" selected>
+                vs AI FIDE (Tingkat Normal)
+              </option>
               <option value="ai-medium">vs AI FIDE (Tingkat Sedang)</option>
-              <option value="ai-hard">vs AI FIDE (Tingkat Susah - Master)</option>
+              <option value="ai-hard">vs AI FIDE (Tingkat Master)</option>
             </select>
           </div>
 
           <!-- Sisi Bidak Pemain -->
           <div>
-            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-              Bermain Sebagai Sisi
+            <label
+              class="block font-mono text-[10px] uppercase tracking-wider text-muted mb-1.5"
+            >
+              Orientasi &amp; Sisi Bidak
             </label>
             <select
               id="player-side"
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500"
+              class="w-full bg-obsidian border border-line px-3 py-2.5 text-parchment focus:outline-none focus:border-brass font-mono text-xs"
             >
-              <option value="w" selected>Putih (Langkah Pertama)</option>
-              <option value="b">Hitam (Menjawab Serangan)</option>
+              <option value="w" selected>Putih (Inisiatif Pertama)</option>
+              <option value="b">Hitam (Pertahanan Balik)</option>
             </select>
           </div>
 
           <!-- Kontrol Tempo Waktu Pertandingan -->
           <div>
-            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-              Tempo Waktu (Chess Clock)
+            <label
+              class="block font-mono text-[10px] uppercase tracking-wider text-muted mb-1.5"
+            >
+              Kontrol Waktu (FIDE Clock)
             </label>
             <select
               id="time-control"
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500"
+              class="w-full bg-obsidian border border-line px-3 py-2.5 text-parchment focus:outline-none focus:border-brass font-mono text-xs"
             >
-              <option value="60,0">Bullet 1+0 (1 Menit tanpa tambahan)</option>
+              <option value="60,0">Bullet 1+0 (1 Menit)</option>
               <option value="180,0">Blitz 3+0 (3 Menit)</option>
-              <option value="180,2">Blitz 3+2 (3 Menit + 2 Detik Increment)</option>
-              <option value="300,0" selected>Blitz 5+0 (5 Menit Standar)</option>
-              <option value="600,0">Rapid 10+0 (10 Menit Klasik Cepat)</option>
+              <option value="180,2">Blitz 3+2 (3 Menit + 2d Increment)</option>
+              <option value="300,0" selected>
+                Blitz 5+0 (5 Menit Standar)
+              </option>
+              <option value="600,0">Rapid 10+0 (10 Menit)</option>
             </select>
           </div>
 
           <!-- Tema Visual Papan & Bidak -->
           <div>
-            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-              Tema Visual Papan Catur
+            <label
+              class="block font-mono text-[10px] uppercase tracking-wider text-muted mb-1.5"
+            >
+              Material Papan Catur
             </label>
             <select
               id="board-theme-select"
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500"
+              class="w-full bg-obsidian border border-line px-3 py-2.5 text-parchment focus:outline-none focus:border-brass font-mono text-xs"
             >
-              <option value="wood" selected>Classic Wood (Mahoni & Kastanye)</option>
-              <option value="cyberpunk">Cyberpunk Neon (Futuristik Sian & Magenta)</option>
-              <option value="marble">Marble Luxury (Marmer Emas & Obsidian)</option>
-              <option value="midnight">Midnight Dark (OLED Pitch Black)</option>
+              <option value="wood" selected>
+                Tournament Walnut (Kayu Kenari &amp; Maple)
+              </option>
+              <option value="marble">
+                Carrara &amp; Nero Marble (Marmer Italia)
+              </option>
+              <option value="midnight">
+                Obsidian Slate (Monokrom Arsitektural)
+              </option>
+              <option value="cyberpunk">Amber Phosphor (Terminal Retro)</option>
             </select>
           </div>
 
           <!-- Paket Efek Audio Berlapis -->
           <div>
-            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-              Paket Efek Audio (Sound Pack)
+            <label
+              class="block font-mono text-[10px] uppercase tracking-wider text-muted mb-1.5"
+            >
+              Profil Akustik (Sound Engine)
             </label>
             <select
               id="sound-pack-select"
-              class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500"
+              class="w-full bg-obsidian border border-line px-3 py-2.5 text-parchment focus:outline-none focus:border-brass font-mono text-xs"
             >
-              <option value="wood" selected>Tournament Wood (Suara Kayu Akustik)</option>
-              <option value="arcade">Arcade 8-bit (Chiptune Retro Synthesizer)</option>
-              <option value="scifi">Sci-Fi Laser (Laser & Balok Plasma)</option>
+              <option value="wood" selected>
+                Tournament Wood (Akustik Kayu)
+              </option>
+              <option value="arcade">Vintage Relay (Sintetis Analog)</option>
+              <option value="scifi">Minimalist Pulse (Frekuensi Bersih)</option>
             </select>
           </div>
         </div>
 
-        <div class="mt-6 flex justify-end gap-2.5">
+        <div class="mt-6">
           <button
             id="btn-apply-settings"
-            class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-950/40"
+            class="w-full py-3 bg-parchment hover:bg-brass text-obsidian font-mono font-semibold text-xs uppercase tracking-widest transition"
           >
-            Terapkan & Mulai Ulang Arena
+            Terapkan &amp; Mulai Pertandingan
           </button>
         </div>
       </div>
     </div>
 
     <!-- Footer -->
-    <footer class="w-full border-t border-slate-900 bg-slate-950/80 py-4 px-4 text-center text-[11px] text-slate-500">
-      Grandmaster Web Chess © 2026. Standar Aturan FIDE Internasional • Powered by chess.js & Web Audio API.
+    <footer
+      class="w-full border-t border-line bg-obsidian py-4 px-6 flex flex-col sm:flex-row justify-between items-center text-[11px] font-mono text-muted gap-2"
+    >
+      <span>GRANDMASTER CHESS ARCHIVE © 2026</span>
+      <span>FIDE ALGEBRAIC STANDARD • WEB AUDIO SYNTHESIS</span>
     </footer>
 
     <!-- Script Aplikasi Game -->
